@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Никита Самсонов](https://up.htmlacademy.ru/react/15/user/235161).
-* Наставник: `Неизвестно`.
+* Наставник: [Юлия Волкова](https://htmlacademy.ru/profile/julie_volkova).
 
 ---
 
