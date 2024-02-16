@@ -1,3 +1,3 @@
 export const Setting = {
-  PlacesToStayCount: 5
+  PlacesToStayCount: 312,
 };
