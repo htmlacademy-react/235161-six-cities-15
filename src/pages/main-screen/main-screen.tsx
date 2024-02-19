@@ -2,6 +2,7 @@ import PlaceCard from '../../components/place-card/place-card';
 import Header from '../../components/header/header';
 import LocationsList from '../../components/locations-list/locations-list';
 import Map from '../../components/map/map';
+import { CardsData } from '../../mock/cards-data';
 
 type MainScreenProps = {
   placesToStayCount: number;
@@ -41,11 +42,7 @@ function MainScreen({placesToStayCount}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
+                {CardsData.map((card) => <PlaceCard key={card.id} placeCard={card}/>)}
               </div>
             </section>
             <div className="cities__right-section">

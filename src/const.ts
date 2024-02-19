@@ -2,7 +2,12 @@ export const Setting = {
   PlacesToStayCount: 312,
 };
 
-export const CITIES = [
+type CitiesType = {
+  name: string;
+  isActive: boolean;
+};
+
+export const CITIES: CitiesType[] = [
   {
     name: 'Paris',
     isActive: false
