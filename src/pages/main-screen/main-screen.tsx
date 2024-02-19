@@ -1,6 +1,7 @@
 import PlaceCard from '../../components/place-card/place-card';
 import Header from '../../components/header/header';
 import LocationsList from '../../components/locations-list/locations-list';
+import Map from '../../components/map/map';
 
 type MainScreenProps = {
   placesToStayCount: number;
@@ -48,7 +49,7 @@ function MainScreen({placesToStayCount}: MainScreenProps): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map/>
             </div>
           </div>
         </div>
