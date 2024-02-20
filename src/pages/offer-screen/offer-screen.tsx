@@ -1,6 +1,7 @@
 import Header from '../../components/header/header';
 import Gallery from '../../components/gallery/gallery';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
+import ReviewsItem from '../../components/reviews-item/reviews-item';
 import Map from '../../components/map/map';
 import PlaceCard from '../../components/place-card/place-card';
 import { CardsData } from '../../mock/cards-data';
@@ -8,6 +9,15 @@ import { CardsData } from '../../mock/cards-data';
 const INSIDE_OFFERS: string[] = ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen','Dishwasher', 'Cabel TV', 'Fridge'];
 
 const GALLERY_IMAGES: string[] = ['room.jpg', 'apartment-01.jpg', 'apartment-02.jpg', 'apartment-03.jpg', 'studio-01.jpg', 'apartment-01.jpg'];
+
+const REVIEW = {
+  id: 1,
+  avatar: 'img/avatar-max.jpg',
+  userName: 'Max',
+  reviewText: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+  dateTime: '2019-04-24',
+  date: 'April 2019',
+};
 
 function OfferScreen(): JSX.Element {
   return (
@@ -86,28 +96,7 @@ function OfferScreen(): JSX.Element {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
                 <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
+                  <ReviewsItem key={REVIEW.id} review={REVIEW}/>
                 </ul>
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
