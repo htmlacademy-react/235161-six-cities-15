@@ -33,3 +33,27 @@ export const CITIES: CitiesType[] = [
     isActive: false
   },
 ];
+
+type SortType = {
+  name: string;
+  isActive: boolean;
+};
+
+export const SORT: SortType[] = [
+  {
+    name: 'Popular',
+    isActive: true
+  },
+  {
+    name: 'Price: low to high',
+    isActive: false
+  },
+  {
+    name: 'Price: high to low',
+    isActive: false
+  },
+  {
+    name: 'Top rated first',
+    isActive: false
+  },
+];
