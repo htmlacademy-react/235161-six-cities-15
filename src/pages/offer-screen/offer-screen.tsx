@@ -1,4 +1,5 @@
 import Header from '../../components/header/header';
+import Map from '../../components/map/map';
 
 function OfferScreen(): JSX.Element {
   return (
@@ -199,7 +200,7 @@ function OfferScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map classModificator = 'offer'/>
         </section>
         <div className="container">
           <section className="near-places places">

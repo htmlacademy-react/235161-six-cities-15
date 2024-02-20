@@ -1,6 +1,10 @@
-function Map(): JSX.Element {
+type MapProps = {
+  classModificator?: string;
+}
+
+function Map({classModificator = 'cities'}: MapProps): JSX.Element {
   return (
-    <section className="cities__map map"></section>
+    <section className={`${classModificator}__map map`}></section>
   );
 }
 
