@@ -3,7 +3,7 @@ import { SORT } from '../../const';
 function Sort(): JSX.Element {
   const activeSortTypeClass = 'places__option--active';
   const placesOptionsItems = SORT.map((sortType) =>
-    <li key={sortType.name} className={`places__option ${sortType.isActive && activeSortTypeClass}`} tabIndex={0}>{sortType.name}</li>
+    <li key={sortType.name} className={`places__option ${sortType.isActive ? activeSortTypeClass : ''}`} tabIndex={0}>{sortType.name}</li>
   );
 
   return (
