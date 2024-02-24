@@ -1,6 +1,6 @@
 export const Setting = {
   PlacesToStayCount: 312,
-};
+} as const;
 
 export type CitiesType = {
   name: string;

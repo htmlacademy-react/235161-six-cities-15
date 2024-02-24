@@ -1,4 +1,4 @@
-export const CardsData = [
+export const cardsData = [
   {
     id: 1,
     title: 'Beautiful & luxurious apartment at great location',
