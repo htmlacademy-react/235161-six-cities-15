@@ -2,15 +2,18 @@ type OfferInsideListProps = {
   insideOffers: string[];
 }
 
-function OfferInsideList({insideOffers}: OfferInsideListProps): JSX.Element {
-  const offerInsideListItems = insideOffers.map((insideOffer) => (
+function OfferInsideItem({insideOffer}: {insideOffer: string}): JSX.Element {
+  return (
     <li
-      key={insideOffer}
       className="offer__inside-item"
     >
       {insideOffer}
     </li>
-  ));
+  );
+}
+
+function OfferInsideList({insideOffers}: OfferInsideListProps): JSX.Element {
+  const offerInsideListItems = insideOffers.map((insideOffer) => <OfferInsideItem key={insideOffer} insideOffer={insideOffer}/>);
 
   return (
     <ul className="offer__inside-list">

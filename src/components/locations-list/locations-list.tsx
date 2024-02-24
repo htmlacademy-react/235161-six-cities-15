@@ -8,7 +8,7 @@ type LocationListItemProps = {
 function LocationListItem({city, activeItemClass = 'tabs__item--active'}: LocationListItemProps): JSX.Element {
   const {isActive, name} = city;
   return (
-    <li key={name} className="locations__item">
+    <li className="locations__item">
       <a className={`locations__item-link tabs__item ${isActive ? activeItemClass : ''}`} href="#">
         <span>{name}</span>
       </a>
