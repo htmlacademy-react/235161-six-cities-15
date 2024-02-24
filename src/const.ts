@@ -34,7 +34,7 @@ export const CITIES: CitiesType[] = [
   },
 ];
 
-type SortType = {
+export type SortType = {
   name: string;
   isActive: boolean;
 };

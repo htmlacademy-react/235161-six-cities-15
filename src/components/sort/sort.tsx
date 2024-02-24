@@ -1,10 +1,26 @@
-import { SORT } from '../../const';
+import { SORT, SortType } from '../../const';
+
+type SortItemProps = {
+  sortType: SortType;
+  activeSortTypeClass?: string;
+}
+
+function SortItem({sortType, activeSortTypeClass = 'places__option--active'}: SortItemProps): JSX.Element {
+  const {name, isActive} = sortType;
+  return (
+    <li
+      key={name}
+      className={`places__option ${isActive ? activeSortTypeClass : ''}`}
+      tabIndex={0}
+    >
+      {name}
+    </li>
+  );
+}
 
 function Sort(): JSX.Element {
-  const activeSortTypeClass = 'places__option--active';
-  const placesOptionsItems = SORT.map((sortType) =>
-    <li key={sortType.name} className={`places__option ${sortType.isActive ? activeSortTypeClass : ''}`} tabIndex={0}>{sortType.name}</li>
-  );
+  const placesOptionsItems = SORT.map((sortType) => <SortItem key={sortType.name} sortType={sortType}/>);
+
 
   return (
     <form className="places__sorting" action="#" method="get">
