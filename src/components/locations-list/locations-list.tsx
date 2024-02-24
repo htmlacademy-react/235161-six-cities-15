@@ -1,15 +1,26 @@
-import { CITIES } from '../../const';
+import { CITIES, CitiesType } from '../../const';
+
+type LocationListItemProps = {
+  city: CitiesType;
+  activeItemClass?: string;
+}
+
+function LocationListItem({city, activeItemClass = 'tabs__item--active'}: LocationListItemProps): JSX.Element {
+  const {isActive, name} = city;
+  return (
+    <li key={name} className="locations__item">
+      <a className={`locations__item-link tabs__item ${isActive ? activeItemClass : ''}`} href="#">
+        <span>{name}</span>
+      </a>
+    </li>
+  );
+}
 
 function LocationsList(): JSX.Element {
 
-  const activeItemClass = 'tabs__item--active';
-  const locationsListItems = CITIES.map((city) => (
-    <li key={city.name} className="locations__item">
-      <a className={`locations__item-link tabs__item ${city.isActive ? activeItemClass : ''}`} href="#">
-        <span>{city.name}</span>
-      </a>
-    </li>
-  ));
+  const locationsListItems = CITIES.map((city) =>
+    <LocationListItem key={city.name} city={city}/>
+  );
 
   return (
     <ul className="locations__list tabs__list">

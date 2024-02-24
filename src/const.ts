@@ -2,7 +2,7 @@ export const Setting = {
   PlacesToStayCount: 312,
 };
 
-type CitiesType = {
+export type CitiesType = {
   name: string;
   isActive: boolean;
 };
