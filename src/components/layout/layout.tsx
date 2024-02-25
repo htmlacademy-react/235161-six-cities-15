@@ -1,40 +1,41 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { AppRoutes } from '../../const';
-import Logo from '../logo/logo';
 
-function getContainerClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean): string {
-  let containerClassName = 'page';
+function getLayoutState(pathname: string) {
+  let mainClassName = '';
+  let linkClassName = '';
+  let shouldRenderUser = true;
 
-  if (isOfferPage || isFavoritePage) {
-    return containerClassName;
+  if (pathname === AppRoutes.Main) {
+    mainClassName = ' page--gray page--main';
+    linkClassName = ' header__logo-link--active';
+  } else if (pathname === AppRoutes.Favorites || pathname === AppRoutes.Offer) {
+    mainClassName = '';
+    linkClassName = ' header__logo-link--active';
+  } else if (pathname === AppRoutes.Login) {
+    mainClassName = ' page--gray page--login';
+    shouldRenderUser = false;
   }
 
-  if (isLoginPage) {
-    containerClassName += 'page--gray page--login';
-    return containerClassName;
-  }
-
-  containerClassName += 'page--gray page--main';
-
-  return containerClassName;
+  return {mainClassName, linkClassName, shouldRenderUser};
 }
 
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
-  const isLoginPage = pathname === AppRoutes.Login;
+  const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
-  const isOfferPage = pathname === AppRoutes.Offer;
-  const containerClassName = getContainerClassName(isLoginPage, isFavoritePage, isOfferPage);
 
   return (
-    <div className={containerClassName}>
+    <div className={`page${mainClassName}`}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo />
+              <Link className={`header__logo-link${linkClassName}`} to={AppRoutes.Main}>
+                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+              </Link>
             </div>
-            {isLoginPage ? null : (
+            {shouldRenderUser ? (
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
@@ -52,7 +53,7 @@ function Layout(): JSX.Element {
                   </li>
                 </ul>
               </nav>
-            )}
+            ) : null}
           </div>
         </div>
       </header>

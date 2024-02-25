@@ -5,12 +5,11 @@ type GalleryProps = {
 function GalleryImage({image}: {image: string}): JSX.Element {
   return (
     <div
-      key={image}
       className="offer__image-wrapper"
     >
       <img
         className="offer__image"
-        src={`img/${image}`}
+        src={image}
         alt="Photo studio"
       />
     </div>

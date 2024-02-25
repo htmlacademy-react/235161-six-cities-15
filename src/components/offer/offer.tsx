@@ -7,7 +7,7 @@ import { RATINGS } from '../../const';
 
 const INSIDE_OFFERS: string[] = ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen','Dishwasher', 'Cabel TV', 'Fridge'];
 
-const GALLERY_IMAGES: string[] = ['room.jpg', 'apartment-01.jpg', 'apartment-02.jpg', 'apartment-03.jpg', 'studio-01.jpg', 'apartment-01.jpg'];
+const GALLERY_IMAGES: string[] = ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg', 'img/apartment-01.jpg'];
 
 const REVIEW = {
   id: 1,
