@@ -9,6 +9,12 @@ export const AppRoutes = {
   Offer: '/offer/:id'
 } as const;
 
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
 export type CitiesType = {
   name: string;
   isActive: boolean;
