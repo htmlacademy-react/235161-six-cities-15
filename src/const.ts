@@ -2,6 +2,13 @@ export const Setting = {
   PlacesToStayCount: 312,
 } as const;
 
+export const AppRoutes = {
+  Main: '/',
+  Login: '/login',
+  Favorites: '/favorites',
+  Offer: '/offer/:id'
+} as const;
+
 export type CitiesType = {
   name: string;
   isActive: boolean;
