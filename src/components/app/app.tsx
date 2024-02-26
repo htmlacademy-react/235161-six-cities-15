@@ -16,9 +16,15 @@ function App({placesToStayCount}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Layout/>}>
+        <Route path='/' element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
           <Route index element={<MainScreen placesToStayCount={placesToStayCount}/>}></Route>
-          <Route path={AppRoutes.Login} element={<LoginScreen/>}></Route>
+          <Route path={AppRoutes.Login} element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
+              <LoginScreen/>
+            </PrivateRoute>
+          }
+          >
+          </Route>
           <Route path={AppRoutes.Offer} element={<OfferScreen/>}></Route>
           <Route
             path={AppRoutes.Favorites}
