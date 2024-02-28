@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import PlaceCard from '../../components/place-card/place-card';
 import LocationsList from '../../components/locations-list/locations-list';
 import Sort from '../../components/sort/sort';
@@ -11,6 +12,11 @@ type MainScreenProps = {
 function MainScreen({placesToStayCount}: MainScreenProps): JSX.Element {
   return (
     <main className="page__main page__main--index">
+      <Helmet>
+        <title>
+          6 Cities. Main page
+        </title>
+      </Helmet>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">

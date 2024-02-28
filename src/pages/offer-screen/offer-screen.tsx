@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import PlaceCard from '../../components/place-card/place-card';
 import { cardsData } from '../../mock/cards-data';
 import Offer from '../../components/offer/offer';
@@ -5,6 +6,11 @@ import Offer from '../../components/offer/offer';
 function OfferScreen(): JSX.Element {
   return (
     <main className="page__main page__main--offer">
+      <Helmet>
+        <title>
+          6 Cities. Offer
+        </title>
+      </Helmet>
 
       <Offer/>
 

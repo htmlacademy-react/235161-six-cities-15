@@ -1,4 +1,5 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
@@ -14,30 +15,32 @@ type AppProps = {
 
 function App({placesToStayCount}: AppProps): JSX.Element {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
-          <Route index element={<MainScreen placesToStayCount={placesToStayCount}/>}></Route>
-          <Route path={AppRoutes.Login} element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
-              <LoginScreen/>
-            </PrivateRoute>
-          }
-          >
-          </Route>
-          <Route path={AppRoutes.Offer} element={<OfferScreen/>}></Route>
-          <Route
-            path={AppRoutes.Favorites}
-            element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <FavoritesScreen />
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
+            <Route index element={<MainScreen placesToStayCount={placesToStayCount}/>}></Route>
+            <Route path={AppRoutes.Login} element={
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
+                <LoginScreen/>
               </PrivateRoute>
             }
-          />
-          <Route path='*' element={<NotFoundScreen />}></Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            >
+            </Route>
+            <Route path={AppRoutes.Offer} element={<OfferScreen/>}></Route>
+            <Route
+              path={AppRoutes.Favorites}
+              element={
+                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                  <FavoritesScreen />
+                </PrivateRoute>
+              }
+            />
+            <Route path='*' element={<NotFoundScreen />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

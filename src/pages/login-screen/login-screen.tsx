@@ -1,6 +1,13 @@
+import { Helmet } from 'react-helmet-async';
+
 function LoginScreen(): JSX.Element {
   return (
     <main className="page__main page__main--login">
+      <Helmet>
+        <title>
+          6 Cities. Login
+        </title>
+      </Helmet>
       <div className="page__login-container container">
         <section className="login">
           <h1 className="login__title">Sign in</h1>
