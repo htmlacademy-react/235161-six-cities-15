@@ -1,25 +1,44 @@
 import Gallery from '../../components/gallery/gallery';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
-import ReviewsItem from '../../components/reviews-item/reviews-item';
-import RatingInput from '../../components/rating-input/rating-input';
+import ReviewsList from '../reviews-list/reviews-list';
+import ReviewsForm from '../reviews-form/reviews-form';
 import Map from '../../components/map/map';
-import { RATINGS } from '../../const';
 
-const INSIDE_OFFERS: string[] = ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen','Dishwasher', 'Cabel TV', 'Fridge'];
+const INSIDE_OFFERS: string[] = [
+  'Wi-Fi',
+  'Washing machine',
+  'Towels',
+  'Heating',
+  'Coffee machine',
+  'Baby seat',
+  'Kitchen',
+  'Dishwasher',
+  'Cabel TV',
+  'Fridge'
+];
 
-const GALLERY_IMAGES: string[] = ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg', 'img/apartment-01.jpg'];
+const GALLERY_IMAGES: string[] = [
+  'img/room.jpg',
+  'img/apartment-01.jpg',
+  'img/apartment-02.jpg',
+  'img/apartment-03.jpg',
+  'img/studio-01.jpg',
+  'img/apartment-01.jpg'
+];
 
-const REVIEW = {
-  id: 1,
-  date: 'April 2019',
-  user: {
-    name: 'Max',
-    avatarUrl: 'img/avatar-max.jpg',
-    isPro: false
-  },
-  comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-  rating: 4,
-};
+const REVIEWS = [
+  {
+    id: 1,
+    date: 'April 2019',
+    user: {
+      name: 'Max',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: false
+    },
+    comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+    rating: 4,
+  }
+];
 
 function Offer(): JSX.Element {
   return (
@@ -93,22 +112,10 @@ function Offer(): JSX.Element {
           </div>
           <section className="offer__reviews reviews">
             <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-            <ul className="reviews__list">
-              <ReviewsItem key={REVIEW.id} review={REVIEW}/>
-            </ul>
-            <form className="reviews__form form" action="#" method="post">
-              <label className="reviews__label form__label" htmlFor="review">Your review</label>
-              <div className="reviews__rating-form form__rating">
-                {RATINGS.map((rating) => <RatingInput key={rating.value} rating={rating}/>)}
-              </div>
-              <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-              <div className="reviews__button-wrapper">
-                <p className="reviews__help">
-                  To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                </p>
-                <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-              </div>
-            </form>
+
+            <ReviewsList reviews={REVIEWS} />
+
+            <ReviewsForm />
           </section>
         </div>
       </div>
