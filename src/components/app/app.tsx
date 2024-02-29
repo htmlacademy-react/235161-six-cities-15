@@ -18,15 +18,14 @@ function App({placesToStayCount}: AppProps): JSX.Element {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
+          <Route path={AppRoutes.Main} element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
             <Route index element={<MainScreen placesToStayCount={placesToStayCount}/>}></Route>
             <Route path={AppRoutes.Login} element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
                 <LoginScreen/>
               </PrivateRoute>
             }
-            >
-            </Route>
+            />
             <Route path={AppRoutes.Offer} element={<OfferScreen/>}></Route>
             <Route
               path={AppRoutes.Favorites}
