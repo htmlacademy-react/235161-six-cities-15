@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../../types/offer';
-import PlaceCard from '../../components/place-card/place-card';
+import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
 import Sort from '../../components/sort/sort';
 import Map from '../../components/map/map';
@@ -30,9 +30,10 @@ function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{placesToStayCount} places to stay in Amsterdam</b>
             <Sort/>
-            <div className="cities__places-list places__list tabs__content">
-              {offers.map((offer) => <PlaceCard key={offer.id} offer={offer}/>)}
-            </div>
+            <PlacesList
+              offers={offers}
+              className={'cities'}
+            />
           </section>
           <div className="cities__right-section">
             <Map/>
