@@ -3,6 +3,7 @@ import { OfferType } from '../../types/offer';
 
 type PlaceCardProps = {
   offer: OfferType;
+  handleHover: (offer?: OfferType) => void;
   className?: string;
   imgPreviewWidth?: number;
   imgPreviewHeight?: number;
@@ -16,12 +17,24 @@ function PremiumMark(): JSX.Element {
   );
 }
 
-function PlaceCard({offer, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, handleHover, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
   const {id, title, type, price, rating, previewImage, isPremium, isFavorite} = offer;
   const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
 
+  const handleMouseOver = () => {
+    handleHover(offer);
+  };
+
+  const handleMouseOut = () => {
+    handleHover();
+  };
+
   return (
-    <article className={`${className}__card place-card`}>
+    <article
+      className={`${className}__card place-card`}
+      onMouseEnter={handleMouseOver}
+      onMouseLeave={handleMouseOut}
+    >
       {isPremium && <PremiumMark/>}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
