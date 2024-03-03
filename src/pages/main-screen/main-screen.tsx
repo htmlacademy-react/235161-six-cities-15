@@ -32,7 +32,7 @@ function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
             <Sort/>
             <PlacesList
               offers={offers}
-              className={'cities'}
+              className={'cities__places-list'}
             />
           </section>
           <div className="cities__right-section">

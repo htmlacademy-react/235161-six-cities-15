@@ -24,7 +24,7 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <PlacesList
             offers={offers}
-            className={'near'}
+            className={'near-places__list'}
           />
         </section>
       </div>
