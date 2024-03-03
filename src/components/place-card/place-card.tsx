@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type PlaceCardType = {
   id: number | string;
   title: string;
@@ -24,14 +26,14 @@ function PremiumMark(): JSX.Element {
 }
 
 function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
-  const {title, type, price, previewImage, isPremium, isFavorite} = placeCard;
+  const {id, title, type, price, previewImage, isPremium, isFavorite} = placeCard;
   const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
 
   return (
     <article className={`${className}__card place-card`}>
       {isPremium && <PremiumMark/>}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -39,7 +41,7 @@ function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgP
             height={imgPreviewHeight}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -66,7 +68,7 @@ function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgP
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

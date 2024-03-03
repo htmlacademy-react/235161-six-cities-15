@@ -1,28 +1,28 @@
-import Header from '../../components/header/header';
+import { Helmet } from 'react-helmet-async';
 import PlaceCard from '../../components/place-card/place-card';
 import { cardsData } from '../../mock/cards-data';
 import Offer from '../../components/offer/offer';
 
 function OfferScreen(): JSX.Element {
   return (
-    <div className="page">
+    <main className="page__main page__main--offer">
+      <Helmet>
+        <title>
+          6 Cities. Offer
+        </title>
+      </Helmet>
 
-      <Header />
+      <Offer/>
 
-      <main className="page__main page__main--offer">
-
-        <Offer/>
-
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              {cardsData.map((card) => <PlaceCard key={card.id} placeCard={card} className='near-places'/>)}
-            </div>
-          </section>
-        </div>
-      </main>
-    </div>
+      <div className="container">
+        <section className="near-places places">
+          <h2 className="near-places__title">Other places in the neighbourhood</h2>
+          <div className="near-places__list places__list">
+            {cardsData.map((card) => <PlaceCard key={card.id} placeCard={card} className='near-places'/>)}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
 
