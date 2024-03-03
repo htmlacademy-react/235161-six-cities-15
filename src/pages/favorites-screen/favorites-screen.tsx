@@ -1,9 +1,34 @@
 import { Helmet } from 'react-helmet-async';
-import { cardsData } from '../../mock/cards-data';
+import { OfferType } from '../../types/offer';
 import FavoritesItem from '../../components/favorites-item/favorites-item';
 
-function FavoritesScreen(): JSX.Element {
-  const favoriteOffersAmsterdam = cardsData.filter((item) => item.isFavorite === true);
+type CityGroupType = {
+  [key: string]: OfferType[];
+}
+
+function groupOffersByCity(items: OfferType[]): CityGroupType {
+
+  const groupedItems = items.reduce((accumulator: CityGroupType, item) => {
+    const cityName = item.city.name;
+
+    if (!accumulator[cityName]) {
+      accumulator[cityName] = [];
+    }
+
+    accumulator[cityName].push(item);
+
+    return accumulator;
+  }, {});
+
+  return groupedItems;
+}
+
+type FavoritesScreenProps = {
+  offers: OfferType[];
+}
+
+function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
+  const offersGroupedByCity = groupOffersByCity(offers);
 
   return (
     <main className="page__main page__main--favorites">
@@ -16,7 +41,8 @@ function FavoritesScreen(): JSX.Element {
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
           <ul className="favorites__list">
-            <FavoritesItem offers={favoriteOffersAmsterdam} />
+            {/* <FavoritesItem offers={favoriteOffersAmsterdam} /> */}
+            {Object.keys(offersGroupedByCity).map((city) => <FavoritesItem key={city} city={city} offers={offersGroupedByCity[city]}/>)}
           </ul>
         </section>
       </div>

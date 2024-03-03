@@ -1,17 +1,8 @@
 import { Link } from 'react-router-dom';
-
-type PlaceCardType = {
-  id: number | string;
-  title: string;
-  type: string;
-  price: number;
-  previewImage: string;
-  isPremium: boolean;
-  isFavorite: boolean;
-}
+import { OfferType } from '../../types/offer';
 
 type PlaceCardProps = {
-  placeCard: PlaceCardType;
+  offer: OfferType;
   className?: string;
   imgPreviewWidth?: number;
   imgPreviewHeight?: number;
@@ -25,8 +16,8 @@ function PremiumMark(): JSX.Element {
   );
 }
 
-function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
-  const {id, title, type, price, previewImage, isPremium, isFavorite} = placeCard;
+function PlaceCard({offer, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
+  const {id, title, type, price, rating, previewImage, isPremium, isFavorite} = offer;
   const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
 
   return (
@@ -63,7 +54,7 @@ function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgP
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${20 * rating}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
