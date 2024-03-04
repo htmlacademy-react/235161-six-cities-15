@@ -10,9 +10,16 @@ type PlacesListProps = {
 
 function PlacesList({offers, className}: PlacesListProps): JSX.Element {
   let listClass = ' places__list';
+  let cardClass = '';
 
   if (className === 'cities__places-list') {
     listClass = ' places__list tabs__content';
+    cardClass = 'cities';
+  } else if (className === 'near-places__list') {
+    cardClass = 'near-places';
+  } else if (className === 'favorites__places') {
+    listClass = '';
+    cardClass = 'favorites';
   }
 
   const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
@@ -32,7 +39,8 @@ function PlacesList({offers, className}: PlacesListProps): JSX.Element {
           key={offer.id}
           offer={offer}
           onHover={className === 'cities__places-list' ? handleHover : undefined}
-          className={`${className === 'cities__places-list' ? 'cities' : 'near-places'}`}
+          className={cardClass}
+          {...(cardClass === 'favorites' ? { imgPreviewWidth: 150, imgPreviewHeight: 110 } : {})}
         />
       ))}
     </div>
