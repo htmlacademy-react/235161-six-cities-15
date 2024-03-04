@@ -3,7 +3,7 @@ import { OfferType } from '../../types/offer';
 
 type PlaceCardProps = {
   offer: OfferType;
-  handleHover: (offer?: OfferType) => void;
+  onHover?: (offer?: OfferType) => void | null;
   className?: string;
   imgPreviewWidth?: number;
   imgPreviewHeight?: number;
@@ -17,16 +17,20 @@ function PremiumMark(): JSX.Element {
   );
 }
 
-function PlaceCard({offer, handleHover, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onHover, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
   const {id, title, type, price, rating, previewImage, isPremium, isFavorite} = offer;
   const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
 
   const handleMouseOver = () => {
-    handleHover(offer);
+    if (onHover) {
+      onHover(offer);
+    }
   };
 
   const handleMouseOut = () => {
-    handleHover();
+    if (onHover) {
+      onHover();
+    }
   };
 
   return (

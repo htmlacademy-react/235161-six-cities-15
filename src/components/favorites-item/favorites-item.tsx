@@ -37,7 +37,7 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
           <PlaceCard
             key={offer.id}
             offer={offer}
-            handleHover={handleHover}
+            onHover={handleHover}
             className = 'favorites'
             imgPreviewWidth = {150}
             imgPreviewHeight = {110}

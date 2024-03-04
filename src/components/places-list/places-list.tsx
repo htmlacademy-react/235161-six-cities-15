@@ -16,6 +16,7 @@ function PlacesList({offers, className}: PlacesListProps): JSX.Element {
   }
 
   const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
+
   const handleHover = (offer?: OfferType) => {
     setActiveOffer(offer || null);
   };
@@ -30,7 +31,7 @@ function PlacesList({offers, className}: PlacesListProps): JSX.Element {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handleHover={handleHover}
+          onHover={className === 'cities__places-list' ? handleHover : undefined}
           className={`${className === 'cities__places-list' ? 'cities' : 'near-places'}`}
         />
       ))}
