@@ -7,8 +7,8 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 2,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 3,
       }
     },
@@ -25,8 +25,8 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 2,
+        latitude: 52.3609553943508,
+        longitude: 4.85309666406198,
         zoom: 3,
       }
     },
@@ -43,8 +43,8 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 2,
+        latitude: 52.3909553943508,
+        longitude: 4.929309666406198,
         zoom: 3,
       }
     },
@@ -61,8 +61,8 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 2,
+        latitude: 52.3809553943508,
+        longitude: 4.939309666406198,
         zoom: 3,
       }
     },
@@ -71,22 +71,4 @@ export const offers = [
     isFavorite: false,
     previewImage: 'img/apartment-03.jpg'
   },
-  {
-    id: 5,
-    title: 'Wood and stone place',
-    type: 'Room',
-    price: 80,
-    city: {
-      name: 'Amsterdam',
-      location: {
-        latitude: 1,
-        longitude: 2,
-        zoom: 3,
-      }
-    },
-    rating: 4,
-    isPremium: false,
-    isFavorite: true,
-    previewImage: 'img/room.jpg'
-  }
 ];
