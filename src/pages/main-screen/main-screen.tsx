@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
@@ -12,6 +13,12 @@ type MainScreenProps = {
 }
 
 function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
+
+  const handleHover = (offer?: OfferType) => {
+    setActiveOffer(offer || null);
+  };
+
   return (
     <main className="page__main page__main--index">
       <Helmet>
@@ -33,11 +40,12 @@ function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
             <Sort/>
             <PlacesList
               offers={offers}
+              onHover={handleHover}
               className={'cities__places-list'}
             />
           </section>
           <div className="cities__right-section">
-            <Map offers={offers} city={CITY}/>
+            <Map offers={offers} activeOffer={activeOffer} city={CITY}/>
           </div>
         </div>
       </div>

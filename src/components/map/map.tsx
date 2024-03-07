@@ -6,15 +6,16 @@ import { CityDataType } from '../../mock/city';
 import useMap from '../../hooks/useMap/useMap';
 
 const DEFAULT_MARKER_URL = 'img/pin.svg';
-// const ACTIVE_MARKER_URL = 'public/img/pin-active.svg';
+const ACTIVE_MARKER_URL = 'img/pin-active.svg';
 
 type MapProps = {
   city: CityDataType;
   offers?: OfferType[];
+  activeOffer?: OfferType | null;
   classModificator?: string;
 }
 
-function Map({classModificator = 'cities', offers, city}: MapProps): JSX.Element {
+function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -24,11 +25,11 @@ function Map({classModificator = 'cities', offers, city}: MapProps): JSX.Element
     iconAnchor: [20, 40],
   });
 
-  // const currentCustomIcon = leaflet.icon({
-  //   iconUrl: ACTIVE_MARKER_URL,
-  //   iconSize: [40, 40],
-  //   iconAnchor: [20, 40],
-  // });
+  const currentCustomIcon = leaflet.icon({
+    iconUrl: ACTIVE_MARKER_URL,
+    iconSize: [30, 40],
+    iconAnchor: [20, 40],
+  });
 
   useEffect(() => {
     const markers: Marker[] = [];
@@ -40,7 +41,7 @@ function Map({classModificator = 'cities', offers, city}: MapProps): JSX.Element
             lat: offer.city.location.latitude,
             lng: offer.city.location.longitude,
           }, {
-            icon: defaultCustomIcon,
+            icon: activeOffer && activeOffer.id === offer.id ? currentCustomIcon : defaultCustomIcon,
           })
           .addTo(map);
 
@@ -53,7 +54,7 @@ function Map({classModificator = 'cities', offers, city}: MapProps): JSX.Element
         map?.removeLayer(marker);
       });
     };
-  }, [map, offers, defaultCustomIcon]);
+  }, [map, offers, activeOffer, defaultCustomIcon, currentCustomIcon]);
 
   return (
     <section
