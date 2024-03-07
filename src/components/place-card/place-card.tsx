@@ -1,17 +1,9 @@
 import { Link } from 'react-router-dom';
-
-type PlaceCardType = {
-  id: number | string;
-  title: string;
-  type: string;
-  price: number;
-  previewImage: string;
-  isPremium: boolean;
-  isFavorite: boolean;
-}
+import { OfferType } from '../../types/offer';
 
 type PlaceCardProps = {
-  placeCard: PlaceCardType;
+  offer: OfferType;
+  onHover?: (offer?: OfferType) => void | null;
   className?: string;
   imgPreviewWidth?: number;
   imgPreviewHeight?: number;
@@ -25,12 +17,28 @@ function PremiumMark(): JSX.Element {
   );
 }
 
-function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
-  const {id, title, type, price, previewImage, isPremium, isFavorite} = placeCard;
+function PlaceCard({offer, onHover, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element {
+  const {id, title, type, price, rating, previewImage, isPremium, isFavorite} = offer;
   const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
 
+  const handleMouseOver = () => {
+    if (onHover) {
+      onHover(offer);
+    }
+  };
+
+  const handleMouseOut = () => {
+    if (onHover) {
+      onHover();
+    }
+  };
+
   return (
-    <article className={`${className}__card place-card`}>
+    <article
+      className={`${className}__card place-card`}
+      onMouseEnter={handleMouseOver}
+      onMouseLeave={handleMouseOut}
+    >
       {isPremium && <PremiumMark/>}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
@@ -63,7 +71,7 @@ function PlaceCard({placeCard, className = 'cities', imgPreviewWidth = 260, imgP
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${20 * rating}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

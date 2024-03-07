@@ -1,9 +1,14 @@
 import { Helmet } from 'react-helmet-async';
-import PlaceCard from '../../components/place-card/place-card';
-import { cardsData } from '../../mock/cards-data';
+import { OfferType } from '../../types/offer';
+import PlacesList from '../../components/places-list/places-list';
+//import PlaceCard from '../../components/place-card/place-card';
 import Offer from '../../components/offer/offer';
 
-function OfferScreen(): JSX.Element {
+type OfferScreenProps = {
+  offers: OfferType[];
+}
+
+function OfferScreen({offers}: OfferScreenProps): JSX.Element {
   return (
     <main className="page__main page__main--offer">
       <Helmet>
@@ -17,9 +22,10 @@ function OfferScreen(): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            {cardsData.map((card) => <PlaceCard key={card.id} placeCard={card} className='near-places'/>)}
-          </div>
+          <PlacesList
+            offers={offers}
+            className={'near-places__list'}
+          />
         </section>
       </div>
     </main>

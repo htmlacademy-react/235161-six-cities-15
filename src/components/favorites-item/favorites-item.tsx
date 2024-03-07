@@ -1,36 +1,30 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
-import PlaceCard from '../place-card/place-card';
-
-type OfferType = {
-  id: number | string;
-  title: string;
-  type: string;
-  price: number;
-  previewImage: string;
-  isPremium: boolean;
-  isFavorite: boolean;
-}
+import { OfferType } from '../../types/offer';
+import PlacesList from '../places-list/places-list';
 
 type FavoritesItemProps = {
-  //TODO: Доработать моки и сделать группировку офферов по городам
-  //city?: string;
+  city: string;
   offers: OfferType[];
 }
 
-function FavoritesItem({offers}: FavoritesItemProps): JSX.Element {
-  return (
+function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolean {
+  //TODO: Добавить проверку что в массиве есть офферы с флагом isFavorite:true, пока что костыльное решение
+  const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
+
+  return (bookmarkedOffers.length > 0 &&
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link className="locations__item-link" to={AppRoutes.Main}>
-            <span>Amsterdam</span>
+            <span>{city}</span>
           </Link>
         </div>
       </div>
-      <div className="favorites__places">
-        {offers.map((offer) => <PlaceCard key={offer.id} placeCard={offer} className = 'favorites' imgPreviewWidth = {150} imgPreviewHeight = {110} />)}
-      </div>
+      <PlacesList
+        offers={bookmarkedOffers}
+        className={'favorites__places'}
+      />
     </li>
   );
 }
