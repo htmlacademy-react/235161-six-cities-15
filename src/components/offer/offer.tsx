@@ -3,6 +3,7 @@ import OfferInsideList from '../../components/offer-inside-list/offer-inside-lis
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewsForm from '../reviews-form/reviews-form';
 import Map from '../../components/map/map';
+import { CITY } from '../../mock/city';
 
 const INSIDE_OFFERS: string[] = [
   'Wi-Fi',
@@ -119,7 +120,7 @@ function Offer(): JSX.Element {
           </section>
         </div>
       </div>
-      <Map classModificator = 'offer'/>
+      <Map classModificator = 'offer' city={CITY}/>
     </section>
   );
 }

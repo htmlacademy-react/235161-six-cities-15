@@ -4,6 +4,7 @@ import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
 import Sort from '../../components/sort/sort';
 import Map from '../../components/map/map';
+import { CITY } from '../../mock/city';
 
 type MainScreenProps = {
   placesToStayCount: number;
@@ -36,7 +37,7 @@ function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
             />
           </section>
           <div className="cities__right-section">
-            <Map/>
+            <Map offers={offers} city={CITY}/>
           </div>
         </div>
       </div>
