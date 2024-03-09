@@ -37,7 +37,7 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
 
         <Offer currentOffer={currentOffer} />
 
-        <Map offers={offers} classModificator = 'offer' city={CITY}/>
+        <Map offers={nearbyOffers} classModificator = 'offer' city={CITY}/>
       </section>
 
       <div className="container">
