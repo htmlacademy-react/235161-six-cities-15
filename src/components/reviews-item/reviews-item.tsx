@@ -1,16 +1,19 @@
-type UserType = {
-  name: string;
-  avatarUrl: string;
-  isPro?: boolean;
-}
+import { ReviewItemType } from '../../types/offer';
 
-type ReviewItemType = {
-  id: string | number;
-  date: string;
-  user: UserType;
-  comment: string;
-  rating: number;
-}
+//TODO: УДОЛИ, НЕ ЗАБУДЬ!1!!
+// type UserType = {
+//   name: string;
+//   avatarUrl: string;
+//   isPro?: boolean;
+// }
+
+// type ReviewItemType = {
+//   id: string | number;
+//   date: string;
+//   user: UserType;
+//   comment: string;
+//   rating: number;
+// }
 
 type ReviewsItemProps = {
   review: ReviewItemType;
