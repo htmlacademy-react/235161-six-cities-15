@@ -3,43 +3,6 @@ import ReviewsList from '../reviews-list/reviews-list';
 import ReviewsForm from '../reviews-form/reviews-form';
 import { OfferType } from '../../types/offer';
 
-//TODO: УДОЛИ!1!!!11 P.S.: Я удалю комменты, просто второе задание начал делать в этом же пуллреквесте :D
-// const INSIDE_OFFERS: string[] = [
-//   'Wi-Fi',
-//   'Washing machine',
-//   'Towels',
-//   'Heating',
-//   'Coffee machine',
-//   'Baby seat',
-//   'Kitchen',
-//   'Dishwasher',
-//   'Cabel TV',
-//   'Fridge'
-// ];
-
-// const GALLERY_IMAGES: string[] = [
-//   'img/room.jpg',
-//   'img/apartment-01.jpg',
-//   'img/apartment-02.jpg',
-//   'img/apartment-03.jpg',
-//   'img/studio-01.jpg',
-//   'img/apartment-01.jpg'
-// ];
-
-// const REVIEWS = [
-//   {
-//     id: 1,
-//     date: 'April 2019',
-//     user: {
-//       name: 'Max',
-//       avatarUrl: 'img/avatar-max.jpg',
-//       isPro: false
-//     },
-//     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-//     rating: 4,
-//   }
-// ];
-
 type OfferProps = {
   currentOffer: OfferType;
 }
@@ -108,12 +71,7 @@ function Offer({currentOffer}: OfferProps): JSX.Element {
           <div className="offer__description">
             <p className="offer__text">
               {description}
-              {/* //TODO: УДОЛИ!1!! */}
-              {/* A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century. */}
             </p>
-            {/* <p className="offer__text">
-              An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-            </p> */}
           </div>
         </div>
         <section className="offer__reviews reviews">
