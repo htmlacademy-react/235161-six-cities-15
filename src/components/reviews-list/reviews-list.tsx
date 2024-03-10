@@ -1,18 +1,5 @@
 import ReviewsItem from '../reviews-item/reviews-item';
-
-type UserType = {
-  name: string;
-  avatarUrl: string;
-  isPro?: boolean;
-}
-
-type ReviewItemType = {
-  id: string | number;
-  date: string;
-  user: UserType;
-  comment: string;
-  rating: number;
-}
+import { ReviewItemType } from '../../types/offer';
 
 type ReviewsListProps = {
   reviews: ReviewItemType[];
