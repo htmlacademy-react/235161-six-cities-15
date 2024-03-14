@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity, filterOffersByCity } from '../../store/action';
 import { CitiesType } from '../../const';
 
 type LocationsListItemProps = {
@@ -19,6 +19,7 @@ function LocationsListItem({city}: LocationsListItemProps): JSX.Element {
 
     if (targetCity) {
       dispatch(changeCity({cityName: targetCity}));
+      dispatch(filterOffersByCity({cityName: targetCity}));
     }
   }
 

@@ -1,18 +1,26 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { resetOffers, filterOffersByCity } from '../../store/action';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
 import Sort from '../../components/sort/sort';
 import Map from '../../components/map/map';
-import { CITY } from '../../mock/city';
+// import { CITY } from '../../mock/city';
 
-type MainScreenProps = {
-  placesToStayCount: number;
-  offers: OfferType[];
-}
+function MainScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.city);
+  // const currentCity = useAppSelector((state) => state.offers[0]?.city);
+  // console.log(currentCity);
 
-function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
+  useEffect(() => {
+    dispatch(resetOffers());
+    dispatch(filterOffersByCity({cityName: currentCity}));
+  }, []);
+
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
 
   const handleHover = (offer?: OfferType) => {
@@ -36,7 +44,7 @@ function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{placesToStayCount} places to stay in Amsterdam</b>
+            <b className="places__found">{offers.length} places to stay in Amsterdam</b>
             <Sort/>
             <PlacesList
               offers={offers}
@@ -45,7 +53,7 @@ function MainScreen({placesToStayCount, offers}: MainScreenProps): JSX.Element {
             />
           </section>
           <div className="cities__right-section">
-            <Map offers={offers} activeOffer={activeOffer} city={CITY}/>
+            <Map offers={offers} activeOffer={activeOffer} city={offers[0]?.city}/>
           </div>
         </div>
       </div>

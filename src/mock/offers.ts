@@ -5,16 +5,20 @@ export const offers = [
     type: 'Apartment',
     price: 120,
     city: {
-      name: 'Amsterdam',
+      name: 'Paris',
       location: {
-        latitude: 52.3909553943508,
-        longitude: 4.85309666406198,
-        zoom: 13,
+        // latitude: 52.370215,
+        // longitude: 4.895167,
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 12,
       }
     },
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
+      // latitude: 52.3909553943508,
+      // longitude: 4.85309666406198,
+      latitude: 48.85661,
+      longitude: 2.351499,
       zoom: 8
     },
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
@@ -48,9 +52,9 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3609553943508,
-        longitude: 4.85309666406198,
-        zoom: 3,
+        latitude: 52.370215,
+        longitude: 4.895167,
+        zoom: 12,
       }
     },
     location: {
@@ -89,9 +93,9 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3909553943508,
-        longitude: 4.929309666406198,
-        zoom: 3,
+        latitude: 52.370215,
+        longitude: 4.895167,
+        zoom: 12,
       }
     },
     location: {
@@ -130,9 +134,9 @@ export const offers = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3809553943508,
-        longitude: 4.939309666406198,
-        zoom: 3,
+        latitude: 52.370215,
+        longitude: 4.895167,
+        zoom: 12,
       }
     },
     location: {

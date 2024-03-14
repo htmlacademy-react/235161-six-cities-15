@@ -1,20 +1,23 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
+// import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import Gallery from '../../components/gallery/gallery';
 import Offer from '../../components/offer/offer';
 import Map from '../../components/map/map';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { CITY } from '../../mock/city';
+// import { CITY } from '../../mock/city';
 
-type OfferScreenProps = {
-  offers: OfferType[];
-}
+// type OfferScreenProps = {
+//   offers: OfferType[];
+// }
 
-function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+function OfferScreen(): JSX.Element {
   const {id} = useParams();
+  const offers = useAppSelector((state) => state.offers);
   const currentOffer = offers.find((offer) => offer.id === id);
+  // const currentCity = currentOffer?.city;
   const nearbyOffers = offers.filter((offer) => offer.id !== id);
 
   if (typeof currentOffer === 'undefined') {
@@ -37,7 +40,7 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
 
         <Offer currentOffer={currentOffer} />
 
-        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={CITY}/>
+        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={offers[0]?.city}/>
       </section>
 
       <div className="container">
