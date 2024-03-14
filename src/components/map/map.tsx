@@ -18,7 +18,7 @@ type MapProps = {
 }
 
 function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps): JSX.Element {
-  const currentLocation = city?.location;
+  const currentLocation = city.location;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentLocation);
 
@@ -38,8 +38,8 @@ function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps)
     const markers: Marker[] = [];
 
     if (map) {
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
       offers?.forEach((offer) => {
-        map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
         const marker: Marker = leaflet
           .marker({
             lat: offer.location.latitude,

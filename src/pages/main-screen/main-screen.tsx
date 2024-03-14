@@ -18,7 +18,7 @@ function MainScreen(): JSX.Element {
 
   useEffect(() => {
     dispatch(resetOffers());
-    dispatch(filterOffersByCity({cityName: currentCity}));
+    dispatch(filterOffersByCity({cityName: currentCity.name}));
   }, []);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
@@ -53,7 +53,7 @@ function MainScreen(): JSX.Element {
             />
           </section>
           <div className="cities__right-section">
-            <Map offers={offers} activeOffer={activeOffer} city={offers[0]?.city}/>
+            <Map offers={offers} activeOffer={activeOffer} city={currentCity}/>
           </div>
         </div>
       </div>

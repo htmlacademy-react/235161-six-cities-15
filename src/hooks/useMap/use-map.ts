@@ -3,12 +3,12 @@ import leaflet from 'leaflet';
 import { Map } from 'leaflet';
 import { LocationType } from '../../types/offer';
 
-function useMap(mapRef: MutableRefObject<HTMLElement | null>, currentLocation: LocationType | undefined): Map | null {
+function useMap(mapRef: MutableRefObject<HTMLElement | null>, currentLocation: LocationType): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current && currentLocation !== undefined) {
+    if (mapRef.current !== null && !isRenderedRef.current) {
       const mapInstance = leaflet.map(mapRef.current, {
         center: {
           lat: currentLocation.latitude,

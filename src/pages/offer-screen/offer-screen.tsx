@@ -17,7 +17,7 @@ function OfferScreen(): JSX.Element {
   const {id} = useParams();
   const offers = useAppSelector((state) => state.offers);
   const currentOffer = offers.find((offer) => offer.id === id);
-  // const currentCity = currentOffer?.city;
+  const currentCity = useAppSelector((state) => state.city);
   const nearbyOffers = offers.filter((offer) => offer.id !== id);
 
   if (typeof currentOffer === 'undefined') {
@@ -40,7 +40,7 @@ function OfferScreen(): JSX.Element {
 
         <Offer currentOffer={currentOffer} />
 
-        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={offers[0]?.city}/>
+        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={currentCity}/>
       </section>
 
       <div className="container">

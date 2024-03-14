@@ -29,7 +29,7 @@ function LocationsListItem({city}: LocationsListItemProps): JSX.Element {
       onClick={handleCityClick}
     >
       <a
-        className={`locations__item-link tabs__item ${name === currentCity ? activeItemClass : ''}`}
+        className={`locations__item-link tabs__item ${name === currentCity.name ? activeItemClass : ''}`}
         href="#"
       >
         <span>
