@@ -58,7 +58,7 @@ function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps)
         map?.removeLayer(marker);
       });
     };
-  }, [map, offers, activeOffer, defaultCustomIcon, currentCustomIcon]);
+  }, [map, offers, city, activeOffer, defaultCustomIcon, currentCustomIcon]);
 
   return (
     <section
