@@ -1,10 +1,10 @@
 import { MouseEvent } from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import { changeCity, filterOffersByCity } from '../../store/action';
-import { CitiesType } from '../../const';
+import { CityType } from '../../types/offer';
 
 type LocationsListItemProps = {
-  city: CitiesType;
+  city: CityType;
 }
 
 function LocationsListItem({city}: LocationsListItemProps): JSX.Element {
