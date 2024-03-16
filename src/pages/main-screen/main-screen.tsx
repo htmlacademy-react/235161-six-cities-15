@@ -7,17 +7,15 @@ import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
 import Sort from '../../components/sort/sort';
 import Map from '../../components/map/map';
-// import { CITY } from '../../mock/city';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
-  //const currentStoringType = useAppSelector((state) => state.sorting);
-  // const currentCity = useAppSelector((state) => state.offers[0]?.city);
-  // console.log(currentCity);
+  const currentSortingType = useAppSelector((state) => state.sorting);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
+  const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
 
   const handleHover = (offer?: OfferType) => {
     setActiveOffer(offer || null);
@@ -27,11 +25,29 @@ function MainScreen(): JSX.Element {
     dispatch(getOffers());
   }, []);
 
-  const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
-
   useEffect(() => {
     setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
   }, [currentCity, offers]);
+
+  //TODO: решить вопрос с ортировкой Popular
+  useEffect(() => {
+    type SortFunction = (a: OfferType, b: OfferType) => number;
+
+    const sortFunctions: Record<string, SortFunction> = {
+      'Top rated first': (a: OfferType, b: OfferType) => b.rating - a.rating,
+      'Price: low to high': (a: OfferType, b: OfferType) => a.price - b.price,
+      'Price: high to low': (a: OfferType, b: OfferType) => b.price - a.price,
+    };
+
+    if (currentSortingType in sortFunctions) {
+      const sortedOffers = offersInCurrentCity
+        .slice()
+        .sort(sortFunctions[currentSortingType]);
+      setOffersInCurrentCity(sortedOffers);
+    }
+
+  }, [currentSortingType, offersInCurrentCity]);
+
 
   return (
     <main className="page__main page__main--index">
