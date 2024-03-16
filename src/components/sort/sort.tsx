@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { SORT, SortType } from '../../const';
 
 type SortItemProps = {
   sortType: SortType;
-  activeSortTypeClass?: string;
 }
 
-function SortItem({sortType, activeSortTypeClass = 'places__option--active'}: SortItemProps): JSX.Element {
+function SortItem({sortType}: SortItemProps): JSX.Element {
   const {name, isActive} = sortType;
+  const activeSortTypeClass = 'places__option--active';
+
   return (
     <li
       key={name}
@@ -19,21 +21,28 @@ function SortItem({sortType, activeSortTypeClass = 'places__option--active'}: So
 }
 
 function Sort(): JSX.Element {
-  const placesOptionsItems = SORT.map((sortType) => <SortItem key={sortType.name} sortType={sortType}/>);
+  const [isOptionsOpened, setOptionsOpened] = useState<boolean>(false);
 
+  function handleSortOptionsClick() {
+    setOptionsOpened(!isOptionsOpened);
+  }
 
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       {' '}
-      <span className="places__sorting-type" tabIndex={0}>
+      <span
+        className="places__sorting-type"
+        onClick={handleSortOptionsClick}
+        tabIndex={0}
+      >
         Popular
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
-        {placesOptionsItems}
+      <ul className={`places__options places__options--custom ${isOptionsOpened ? 'places__options--opened' : ''}`}>
+        {SORT.map((sortType) => <SortItem key={sortType.name} sortType={sortType}/>)}
       </ul>
     </form>
   );
