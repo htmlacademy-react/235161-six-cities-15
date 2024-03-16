@@ -39,17 +39,26 @@ function MainScreen(): JSX.Element {
       'Price: high to low': (a: OfferType, b: OfferType) => b.price - a.price,
     };
 
-    if (currentSortingType === 'Popular') {
-      setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
-    } else if (currentSortingType in sortFunctions) {
-      const sortedOffers = offersInCurrentCity
-        .slice()
-        .sort(sortFunctions[currentSortingType]);
-      setOffersInCurrentCity(sortedOffers);
+    let filteredOffers = offers.filter((offer) => offer.city.name === currentCity.name);
+
+    if (currentSortingType !== 'Popular' && currentSortingType in sortFunctions) {
+      filteredOffers = filteredOffers.slice().sort(sortFunctions[currentSortingType]);
     }
 
-  }, [currentSortingType, offersInCurrentCity, offers, currentCity]);
+    setOffersInCurrentCity(filteredOffers);
 
+    //Так не пойдет, нельзя внутри useEffect обращаться к offers
+    // if (currentSortingType === 'Popular') {
+    //   const popularOffers = offers.filter((offer) => offer.city.name === currentCity.name);
+    //   setOffersInCurrentCity(popularOffers);
+    // } else if (currentSortingType in sortFunctions) {
+    //   const sortedOffers = offersInCurrentCity
+    //     .slice()
+    //     .sort(sortFunctions[currentSortingType]);
+    //   setOffersInCurrentCity(sortedOffers);
+    // }
+
+  }, [currentSortingType, offers, currentCity]);
 
   return (
     <main className="page__main page__main--index">
