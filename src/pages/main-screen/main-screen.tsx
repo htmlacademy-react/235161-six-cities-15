@@ -39,14 +39,16 @@ function MainScreen(): JSX.Element {
       'Price: high to low': (a: OfferType, b: OfferType) => b.price - a.price,
     };
 
-    if (currentSortingType in sortFunctions) {
+    if (currentSortingType === 'Popular') {
+      setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
+    } else if (currentSortingType in sortFunctions) {
       const sortedOffers = offersInCurrentCity
         .slice()
         .sort(sortFunctions[currentSortingType]);
       setOffersInCurrentCity(sortedOffers);
     }
 
-  }, [currentSortingType, offersInCurrentCity]);
+  }, [currentSortingType, offersInCurrentCity, offers, currentCity]);
 
 
   return (
