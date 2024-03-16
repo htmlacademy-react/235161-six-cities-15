@@ -7,6 +7,7 @@ import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
 import Sort from '../../components/sort/sort';
 import Map from '../../components/map/map';
+import EmptyPlacesContainer from '../../components/empty-places-container/empty-places-container';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -29,7 +30,6 @@ function MainScreen(): JSX.Element {
     setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
   }, [currentCity, offers]);
 
-  //TODO: решить вопрос с ортировкой Popular
   useEffect(() => {
     type SortFunction = (a: OfferType, b: OfferType) => number;
 
@@ -47,21 +47,10 @@ function MainScreen(): JSX.Element {
 
     setOffersInCurrentCity(filteredOffers);
 
-    //Так не пойдет, нельзя внутри useEffect обращаться к offers
-    // if (currentSortingType === 'Popular') {
-    //   const popularOffers = offers.filter((offer) => offer.city.name === currentCity.name);
-    //   setOffersInCurrentCity(popularOffers);
-    // } else if (currentSortingType in sortFunctions) {
-    //   const sortedOffers = offersInCurrentCity
-    //     .slice()
-    //     .sort(sortFunctions[currentSortingType]);
-    //   setOffersInCurrentCity(sortedOffers);
-    // }
-
   }, [currentSortingType, offers, currentCity]);
 
   return (
-    <main className="page__main page__main--index">
+    <main className={`page__main page__main--index${offersInCurrentCity.length === 0 ? ' page__main--index-empty' : ''}`}>
       <Helmet>
         <title>
           6 Cities. Main page
@@ -74,21 +63,23 @@ function MainScreen(): JSX.Element {
         </section>
       </div>
       <div className="cities">
-        <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offersInCurrentCity.length} places to stay in {currentCity.name}</b>
-            <Sort/>
-            <PlacesList
-              offers={offersInCurrentCity}
-              onHover={handleHover}
-              className={'cities__places-list'}
-            />
-          </section>
-          <div className="cities__right-section">
-            <Map offers={offersInCurrentCity} activeOffer={activeOffer} city={currentCity}/>
-          </div>
-        </div>
+        {offersInCurrentCity.length === 0 && <EmptyPlacesContainer />}
+        {offersInCurrentCity.length !== 0 &&
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{offersInCurrentCity.length} places to stay in {currentCity.name}</b>
+              <Sort/>
+              <PlacesList
+                offers={offersInCurrentCity}
+                onHover={handleHover}
+                className={'cities__places-list'}
+              />
+            </section>
+            <div className="cities__right-section">
+              <Map offers={offersInCurrentCity} activeOffer={activeOffer} city={currentCity}/>
+            </div>
+          </div>}
       </div>
     </main>
   );

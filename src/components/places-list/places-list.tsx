@@ -27,7 +27,7 @@ function PlacesList({offers, className, onHover}: PlacesListProps): JSX.Element 
         <PlaceCard
           key={offer.id}
           offer={offer}
-          onHover={className === 'cities__places-list' ? onHover : undefined}
+          onHover={className !== 'near-places__list' ? onHover : undefined}
           className={cardClass}
           {...(cardClass === 'favorites' ? { imgPreviewWidth: 150, imgPreviewHeight: 110 } : {})}
         />
