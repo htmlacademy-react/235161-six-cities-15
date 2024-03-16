@@ -41,7 +41,7 @@ export const offers = [
     ],
     rating: 4,
     isPremium: true,
-    isFavorite: false,
+    isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
   },
   {

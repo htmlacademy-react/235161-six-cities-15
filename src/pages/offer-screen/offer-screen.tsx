@@ -16,9 +16,11 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 function OfferScreen(): JSX.Element {
   const {id} = useParams();
   const offers = useAppSelector((state) => state.offers);
-  const currentOffer = offers.find((offer) => offer.id === id);
   const currentCity = useAppSelector((state) => state.city);
-  const nearbyOffers = offers.filter((offer) => offer.id !== id);
+
+  const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentCity.name);
+  const currentOffer = offers.find((offer) => offer.id === id);
+  const nearbyOffers = offersInCurrentCity.filter((offer) => offer.id !== id).slice(0, 3);
 
   if (typeof currentOffer === 'undefined') {
     return <NotFoundScreen />;
@@ -44,13 +46,14 @@ function OfferScreen(): JSX.Element {
       </section>
 
       <div className="container">
+        {nearbyOffers.length !== 0 &&
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <PlacesList
             offers={nearbyOffers}
             className={'near-places__list'}
           />
-        </section>
+        </section>}
       </div>
     </main>
   );
