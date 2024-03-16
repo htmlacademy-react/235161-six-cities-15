@@ -1,24 +1,6 @@
 import { useState } from 'react';
-import { SORT, SortType } from '../../const';
-
-type SortItemProps = {
-  sortType: SortType;
-}
-
-function SortItem({sortType}: SortItemProps): JSX.Element {
-  const {name, isActive} = sortType;
-  const activeSortTypeClass = 'places__option--active';
-
-  return (
-    <li
-      key={name}
-      className={`places__option ${isActive ? activeSortTypeClass : ''}`}
-      tabIndex={0}
-    >
-      {name}
-    </li>
-  );
-}
+import { SORT } from '../../const';
+import SortItem from '../sort-item/sort-item';
 
 function Sort(): JSX.Element {
   const [isOptionsOpened, setOptionsOpened] = useState<boolean>(false);
