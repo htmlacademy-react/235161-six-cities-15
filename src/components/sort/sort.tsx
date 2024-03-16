@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useAppSelector } from '../../hooks';
 import { SORT } from '../../const';
 import SortItem from '../sort-item/sort-item';
 
 function Sort(): JSX.Element {
   const [isOptionsOpened, setOptionsOpened] = useState<boolean>(false);
+  const currentSortingType = useAppSelector((state) => state.sorting);
 
   function handleSortOptionsClick() {
     setOptionsOpened(!isOptionsOpened);
@@ -18,7 +20,7 @@ function Sort(): JSX.Element {
         onClick={handleSortOptionsClick}
         tabIndex={0}
       >
-        Popular
+        {currentSortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
