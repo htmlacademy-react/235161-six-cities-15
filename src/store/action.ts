@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const changeCity = createAction<{cityName: string}>('changeCity');
+export const changeCity = createAction<{cityName: string}>('city/changeCity');
 
-export const getOffers = createAction('getOffers');
+export const getOffers = createAction('offers/getOffers');
 
-export const changeSorting = createAction<{sorting: string}>('changeSorting');
+export const changeSorting = createAction<{sorting: string}>('offers/changeSorting');
