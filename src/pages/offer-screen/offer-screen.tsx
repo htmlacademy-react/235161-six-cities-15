@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useAppSelector } from '../../hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/action';
 import PlacesList from '../../components/places-list/places-list';
 import Gallery from '../../components/gallery/gallery';
 import Offer from '../../components/offer/offer';
@@ -11,10 +13,17 @@ function OfferScreen(): JSX.Element {
   const {id} = useParams();
   const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
-
-  const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentCity.name);
   const currentOffer = offers.find((offer) => offer.id === id);
+  const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentOffer?.city.name);
   const nearbyOffers = offersInCurrentCity.filter((offer) => offer.id !== id).slice(0, 3);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentOffer) {
+      dispatch(changeCity({cityName: currentOffer?.city.name}));
+    }
+  }, [currentOffer, dispatch]);
 
   if (typeof currentOffer === 'undefined') {
     return <NotFoundScreen />;

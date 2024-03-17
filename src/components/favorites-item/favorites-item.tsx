@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { changeCity } from '../../store/action';
@@ -15,16 +15,16 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
   //TODO: Добавить проверку что в массиве есть офферы с флагом isFavorite:true, пока что костыльное решение
   const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
-  const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
+  // const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const dispatch = useAppDispatch();
 
-  const handleHover = (offer?: OfferType) => {
-    setActiveOffer(offer || null);
-  };
+  // const handleHover = (offer?: OfferType) => {
+  //   setActiveOffer(offer || null);
+  // };
 
-  if (activeOffer) {
-    dispatch(changeCity({cityName: activeOffer?.city.name}));
-  }
+  // if (activeOffer) {
+  //   dispatch(changeCity({cityName: activeOffer?.city.name}));
+  // }
 
   function handleLocationClick(evt: MouseEvent<HTMLElement>) {
     const target = evt.target as HTMLElement;
@@ -49,7 +49,7 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
       </div>
       <PlacesList
         offers={bookmarkedOffers}
-        onHover={handleHover}
+        // onHover={handleHover}
         className={'favorites__places'}
       />
     </li>
