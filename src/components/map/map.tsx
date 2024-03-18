@@ -2,7 +2,6 @@ import {useRef, useEffect} from 'react';
 import leaflet, { Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfferType } from '../../types/offer';
-// import { CityDataType } from '../../mock/city';
 import useMap from '../../hooks/useMap/use-map';
 import { CityType } from '../../types/offer';
 
@@ -10,7 +9,6 @@ const DEFAULT_MARKER_URL = 'img/pin.svg';
 const ACTIVE_MARKER_URL = 'img/pin-active.svg';
 
 type MapProps = {
-  // city: CityDataType;
   city: CityType;
   offers?: OfferType[];
   activeOffer?: OfferType | null;

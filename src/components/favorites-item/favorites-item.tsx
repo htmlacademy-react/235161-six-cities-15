@@ -15,16 +15,7 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
   //TODO: Добавить проверку что в массиве есть офферы с флагом isFavorite:true, пока что костыльное решение
   const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
-  // const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const dispatch = useAppDispatch();
-
-  // const handleHover = (offer?: OfferType) => {
-  //   setActiveOffer(offer || null);
-  // };
-
-  // if (activeOffer) {
-  //   dispatch(changeCity({cityName: activeOffer?.city.name}));
-  // }
 
   function handleLocationClick(evt: MouseEvent<HTMLElement>) {
     const target = evt.target as HTMLElement;
@@ -49,7 +40,6 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
       </div>
       <PlacesList
         offers={bookmarkedOffers}
-        // onHover={handleHover}
         className={'favorites__places'}
       />
     </li>

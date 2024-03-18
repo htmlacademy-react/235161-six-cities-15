@@ -24,7 +24,7 @@ function MainScreen(): JSX.Element {
 
   useEffect(() => {
     dispatch(getOffers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
