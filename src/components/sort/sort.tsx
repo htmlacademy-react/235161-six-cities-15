@@ -1,23 +1,43 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect} from 'react';
 import { useAppSelector } from '../../hooks';
 import { SORT } from '../../const';
 import SortItem from '../sort-item/sort-item';
 
 function Sort(): JSX.Element {
-  const [isOptionsOpened, setOptionsOpened] = useState<boolean>(false);
+  const [isOptionsOpened, setIsOptionsOpened] = useState<boolean>(false);
   const currentSortingType = useAppSelector((state) => state.sorting);
+  const sortingRef = useRef<HTMLFormElement>(null);
+
+  function handleClickOutside(evt: MouseEvent) {
+    if (sortingRef.current && !sortingRef.current.contains(evt.target as Node)) {
+      setIsOptionsOpened(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   function handleSortOptionsClick() {
-    setOptionsOpened(!isOptionsOpened);
+    setIsOptionsOpened(!isOptionsOpened);
   }
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form
+      className="places__sorting"
+      action="#"
+      method="get"
+      ref={sortingRef}
+      onClick={handleSortOptionsClick}
+    >
       <span className="places__sorting-caption">Sort by</span>
       {' '}
       <span
         className="places__sorting-type"
-        onClick={handleSortOptionsClick}
+
         tabIndex={0}
       >
         {currentSortingType}
