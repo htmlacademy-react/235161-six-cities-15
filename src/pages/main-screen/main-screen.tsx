@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getOffers } from '../../store/action';
+import { useAppSelector } from '../../hooks';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
@@ -10,7 +9,6 @@ import Map from '../../components/map/map';
 import EmptyPlacesContainer from '../../components/empty-places-container/empty-places-container';
 
 function MainScreen(): JSX.Element {
-  const dispatch = useAppDispatch();
   const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
   const currentSortingType = useAppSelector((state) => state.sorting);
@@ -21,10 +19,6 @@ function MainScreen(): JSX.Element {
   const handleHover = (offer?: OfferType) => {
     setActiveOffer(offer || null);
   };
-
-  useEffect(() => {
-    dispatch(getOffers());
-  }, [dispatch]);
 
   useEffect(() => {
     setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
