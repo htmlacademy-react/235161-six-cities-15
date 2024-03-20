@@ -2,22 +2,23 @@ import {useRef, useEffect} from 'react';
 import leaflet, { Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfferType } from '../../types/offer';
-import { CityDataType } from '../../mock/city';
 import useMap from '../../hooks/useMap/use-map';
+import { CityType } from '../../types/offer';
 
 const DEFAULT_MARKER_URL = 'img/pin.svg';
 const ACTIVE_MARKER_URL = 'img/pin-active.svg';
 
 type MapProps = {
-  city: CityDataType;
+  city: CityType;
   offers?: OfferType[];
   activeOffer?: OfferType | null;
   classModificator?: string;
 }
 
 function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps): JSX.Element {
+  const currentLocation = city.location;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, currentLocation);
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: DEFAULT_MARKER_URL,
@@ -35,11 +36,12 @@ function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps)
     const markers: Marker[] = [];
 
     if (map) {
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
       offers?.forEach((offer) => {
         const marker: Marker = leaflet
           .marker({
-            lat: offer.city.location.latitude,
-            lng: offer.city.location.longitude,
+            lat: offer.location.latitude,
+            lng: offer.location.longitude,
           }, {
             icon: activeOffer && activeOffer.id === offer.id ? currentCustomIcon : defaultCustomIcon,
           })
@@ -54,7 +56,7 @@ function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps)
         map?.removeLayer(marker);
       });
     };
-  }, [map, offers, activeOffer, defaultCustomIcon, currentCustomIcon]);
+  }, [map, offers, city, activeOffer, defaultCustomIcon, currentCustomIcon]);
 
   return (
     <section

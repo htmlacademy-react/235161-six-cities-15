@@ -1,12 +1,9 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 
-type FavoritesScreenProps = {
-  offers: OfferType[];
-}
-
-function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
+function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
 
   return (
     <main className="page__main page__main--favorites">

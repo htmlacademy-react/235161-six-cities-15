@@ -1,7 +1,6 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoutes, AuthorizationStatus } from '../../const';
-import { OfferType } from '../../types/offer';
 import MainScreen from '../../pages/main-screen/main-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
@@ -10,32 +9,25 @@ import Layout from '../layout/layout';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 
-type AppProps = {
-  placesToStayCount: number;
-  offers: OfferType[];
-}
-
-function App({offers, placesToStayCount}: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route path={AppRoutes.Main} element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
-            <Route index element={<MainScreen offers={offers} placesToStayCount={placesToStayCount}/>}></Route>
+            <Route index element={<MainScreen />}></Route>
             <Route path={AppRoutes.Login} element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
                 <LoginScreen/>
               </PrivateRoute>
             }
             />
-            <Route path={AppRoutes.Offer} element={<OfferScreen offers={offers} />}></Route>
+            <Route path={AppRoutes.Offer} element={<OfferScreen />}></Route>
             <Route
               path={AppRoutes.Favorites}
               element={
                 <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                  <FavoritesScreen
-                    offers={offers}
-                  />
+                  <FavoritesScreen />
                 </PrivateRoute>
               }
             />

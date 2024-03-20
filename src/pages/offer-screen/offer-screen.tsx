@@ -1,21 +1,29 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../../types/offer';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/action';
 import PlacesList from '../../components/places-list/places-list';
 import Gallery from '../../components/gallery/gallery';
 import Offer from '../../components/offer/offer';
 import Map from '../../components/map/map';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { CITY } from '../../mock/city';
 
-type OfferScreenProps = {
-  offers: OfferType[];
-}
-
-function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+function OfferScreen(): JSX.Element {
   const {id} = useParams();
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.city);
   const currentOffer = offers.find((offer) => offer.id === id);
-  const nearbyOffers = offers.filter((offer) => offer.id !== id);
+  const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentOffer?.city.name);
+  const nearbyOffers = offersInCurrentCity.filter((offer) => offer.id !== id).slice(0, 3);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentOffer) {
+      dispatch(changeCity({cityName: currentOffer?.city.name}));
+    }
+  }, [currentOffer, dispatch]);
 
   if (typeof currentOffer === 'undefined') {
     return <NotFoundScreen />;
@@ -37,17 +45,18 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
 
         <Offer currentOffer={currentOffer} />
 
-        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={CITY}/>
+        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={currentCity}/>
       </section>
 
       <div className="container">
+        {nearbyOffers.length !== 0 &&
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <PlacesList
             offers={nearbyOffers}
             className={'near-places__list'}
           />
-        </section>
+        </section>}
       </div>
     </main>
   );
