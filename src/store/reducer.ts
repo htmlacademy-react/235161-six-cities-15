@@ -4,6 +4,7 @@ import { offers } from '../mock/offers';
 import { CITIES } from '../const';
 import { OfferType } from '../types/offer';
 import { CityType } from '../types/offer';
+import { Setting } from '../const';
 
 type InitialStateType = {
   city: CityType;
@@ -12,16 +13,9 @@ type InitialStateType = {
 };
 
 const initialState: InitialStateType = {
-  city: {
-    name: 'Paris',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 12
-    }
-  },
+  city: Setting.defaultCity,
   offers: [],
-  sorting: 'Popular',
+  sorting: Setting.defaultSorting,
 };
 
 const reducer = createReducer(initialState, (builder) => {
