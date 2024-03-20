@@ -4,7 +4,6 @@ import { Setting } from '../../const';
 
 const initialState: string = Setting.defaultSorting;
 
-//TODO: Нужно доработать
 const sortingSlice = createSlice({
   name: 'sorting',
   initialState,
@@ -13,7 +12,9 @@ const sortingSlice = createSlice({
     builder
       .addCase(changeSorting, (state, action) => {
         const {sorting} = action.payload;
-        return sorting;
+        //TODO: Нужно доработать, пока что сделал так, чтобы линтер не выдавал ошибок
+        state = sorting;
+        return state;
       });
   }
 });
