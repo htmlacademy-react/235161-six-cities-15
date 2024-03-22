@@ -23,7 +23,7 @@ export type ReviewItemType = {
   rating: number;
 }
 
-export type OfferType = {
+export type FullOfferType = {
   id: number | string;
   title: string;
   type: string;
@@ -41,4 +41,6 @@ export type OfferType = {
   isPremium: boolean;
   isFavorite: boolean;
 }
+
+export type OfferType = Omit<FullOfferType, 'images' | 'description' | 'bedrooms' | 'goods' | 'maxAdults' | 'comments'>;
 
