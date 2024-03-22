@@ -17,6 +17,10 @@ export const AppRoutes = {
   Offer: '/offer/:id'
 } as const;
 
+export enum APIRoute {
+  Offers = '/offers',
+}
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',

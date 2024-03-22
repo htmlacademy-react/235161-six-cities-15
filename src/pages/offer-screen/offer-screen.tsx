@@ -19,7 +19,7 @@ function OfferScreen(): JSX.Element {
   const nearbyOffers = offersInCurrentCity.filter((offer) => offer.id !== id).slice(0, 3);
 
   const dispatch = useAppDispatch();
-  //Заглушка шоб все не падало :D
+  //Заглушка :D
   const {images} = currentOffer as FullOfferType;
 
   useEffect(() => {
