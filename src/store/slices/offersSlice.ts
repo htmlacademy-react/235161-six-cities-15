@@ -1,16 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { getOffers } from '../action';
 import { OfferType } from '../../types/offer';
 import { offers } from '../../mock/offers';
 
-const initialState: OfferType[] = [];
+type OffersSliceType = {
+  cardsData: OfferType[];
+}
+
+const initialState: OffersSliceType = {
+  cardsData: [],
+};
 
 //TODO: Нужно доработать, доработаю в 7 модуле
 const offersSlice = createSlice({
   name: 'offers',
   initialState,
   reducers: {
-    getOffers: () => [...offers]
+    getOffers: (state) => {
+      state.cardsData = offers;
+    },
+    loadOffers: (state, action: PayloadAction<OfferType[]>) => {
+      state.cardsData = action.payload;
+    }
   },
   // extraReducers: (builder) => {
   //   builder

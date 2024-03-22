@@ -8,16 +8,19 @@ import Gallery from '../../components/gallery/gallery';
 import Offer from '../../components/offer/offer';
 import Map from '../../components/map/map';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { FullOfferType } from '../../types/offer';
 
 function OfferScreen(): JSX.Element {
   const {id} = useParams();
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector((state) => state.offers.cardsData);
   const currentCity = useAppSelector((state) => state.city);
   const currentOffer = offers.find((offer) => offer.id === id);
   const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentOffer?.city.name);
   const nearbyOffers = offersInCurrentCity.filter((offer) => offer.id !== id).slice(0, 3);
 
   const dispatch = useAppDispatch();
+  //Заглушка шоб все не падало :D
+  const {images} = currentOffer as FullOfferType;
 
   useEffect(() => {
     if (currentOffer) {
@@ -40,7 +43,8 @@ function OfferScreen(): JSX.Element {
       <section className="offer">
 
         <div className="offer__gallery-container container">
-          <Gallery images={currentOffer.images}/>
+          {/* Вот тут использовал заглушку */}
+          <Gallery images={images}/>
         </div>
 
         <Offer currentOffer={currentOffer} />
