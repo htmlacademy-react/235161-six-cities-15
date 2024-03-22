@@ -1,14 +1,15 @@
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewsForm from '../reviews-form/reviews-form';
-import { OfferType } from '../../types/offer';
+import { OfferType, FullOfferType } from '../../types/offer';
 
 type OfferProps = {
   currentOffer: OfferType;
 }
 
 function Offer({currentOffer}: OfferProps): JSX.Element {
-  const {bedrooms, description, comments, goods, maxAdults, price, title, type, isFavorite, isPremium} = currentOffer;
+  //TODO: Исправить это, когда буду подгружать оффер с сервера
+  const {bedrooms, description, comments, goods, maxAdults, price, title, type, isFavorite, isPremium} = currentOffer as FullOfferType;
   const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
 
   return (
