@@ -1,9 +1,7 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOffers } from '../../store/api-actions';
-import { AppRoutes, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { AppRoutes } from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
@@ -14,12 +12,7 @@ import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
   const isLoading = useAppSelector((state) => state.offers.loadingStatus);
-
-  useEffect(() => {
-    dispatch(fetchOffers());
-  }, [dispatch]);
 
   if (isLoading) {
     return <Loader />;
@@ -29,10 +22,10 @@ function App(): JSX.Element {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={AppRoutes.Main} element={<Layout authorizationStatus={AuthorizationStatus.Auth}/>}>
+          <Route path={AppRoutes.Main} element={<Layout />}>
             <Route index element={<MainScreen />}></Route>
             <Route path={AppRoutes.Login} element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
+              <PrivateRoute isReverse>
                 <LoginScreen/>
               </PrivateRoute>
             }
@@ -41,7 +34,7 @@ function App(): JSX.Element {
             <Route
               path={AppRoutes.Favorites}
               element={
-                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <PrivateRoute>
                   <FavoritesScreen />
                 </PrivateRoute>
               }
