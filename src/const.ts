@@ -19,6 +19,8 @@ export const AppRoutes = {
 
 export enum APIRoute {
   Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout'
 }
 
 export enum AuthorizationStatus {
