@@ -1,8 +1,23 @@
-import axios, {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
+import axios, {AxiosInstance, InternalAxiosRequestConfig, AxiosError, AxiosResponse} from 'axios';
+import { toast } from 'react-toastify';
+import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
 
 const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true,
+};
+
+type ErrorMessageType = {
+  type: string;
+  message: string;
+}
+
+const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
@@ -19,6 +34,18 @@ export const createAPI = (): AxiosInstance => {
       }
 
       return config;
+    }
+  );
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError<ErrorMessageType>) => {
+      if (error.response && shouldDisplayError(error.response)) {
+        const errorMessage = (error.response.data);
+        toast.warn(errorMessage.message);
+      }
+
+      throw error;
     }
   );
 
