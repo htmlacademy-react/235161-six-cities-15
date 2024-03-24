@@ -5,11 +5,13 @@ import {saveToken, dropToken} from '../services/token';
 import { OfferType } from '../types/offer';
 import { AuthInfoType, LoggedUserType } from '../types/authorization';
 import { offersSlice } from './slices/offersSlice';
-import {authorizationSlice} from './slices/authorizationSlice';
+import { authorizationSlice } from './slices/authorizationSlice';
+import { userSlice } from './slices/userSlice';
 import { APIRoute, AuthorizationStatus } from '../const';
 
 const {loadOffers, changeLoadingStatus} = offersSlice.actions;
 const {changeAuthStatus} = authorizationSlice.actions;
+const {saveUserData} = userSlice.actions;
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -33,7 +35,9 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get<LoggedUserType>(APIRoute.Login);
+
+      dispatch(saveUserData(data));
       dispatch(changeAuthStatus(AuthorizationStatus.Auth));
     } catch {
       dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
@@ -49,7 +53,9 @@ export const loginAction = createAsyncThunk<void, AuthInfoType, {
   'user/login',
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
+
     saveToken(data.token);
+    dispatch(saveUserData(data));
     dispatch(changeAuthStatus(AuthorizationStatus.Auth));
   }
 );
@@ -63,6 +69,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+    dispatch(saveUserData(null));
     dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
   }
 );

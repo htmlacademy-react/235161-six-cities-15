@@ -30,6 +30,7 @@ function getLayoutState(pathname: string) {
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
   const authStatus = useAppSelector((state) => state.authorization.authStatus);
+  const userData = useAppSelector((state) => state.user.userData);
   const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
 
@@ -57,9 +58,15 @@ function Layout(): JSX.Element {
                   {authStatus === AuthorizationStatus.Auth && (
                     <li className="header__nav-item user">
                       <Link className="header__nav-link header__nav-link--profile" to={AppRoutes.Favorites}>
-                        <div className="header__avatar-wrapper user__avatar-wrapper">
+                        <div
+                          className="header__avatar-wrapper user__avatar-wrapper"
+                          style={{
+                            backgroundImage:`url(${userData?.avatarUrl})`,
+                            borderRadius: '50%'
+                          }}
+                        >
                         </div>
-                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        <span className="header__user-name user__name">{`${userData?.email}`}</span>
                         <span className="header__favorite-count">3</span>
                       </Link>
                     </li>
