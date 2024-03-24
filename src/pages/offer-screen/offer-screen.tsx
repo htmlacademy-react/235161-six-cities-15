@@ -3,24 +3,31 @@ import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/action';
+import { fetchOfferById, fetchNearbyOffers, fetchComments } from '../../store/api-actions';
 import PlacesList from '../../components/places-list/places-list';
 import Gallery from '../../components/gallery/gallery';
 import Offer from '../../components/offer/offer';
 import Map from '../../components/map/map';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { FullOfferType } from '../../types/offer';
+import Loader from '../../components/loader/loader';
 
 function OfferScreen(): JSX.Element {
   const {id} = useParams();
-  const offers = useAppSelector((state) => state.offers.cardsData);
-  const currentCity = useAppSelector((state) => state.city);
-  const currentOffer = offers.find((offer) => offer.id === id);
-  const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentOffer?.city.name);
-  const nearbyOffers = offersInCurrentCity.filter((offer) => offer.id !== id).slice(0, 3);
-
   const dispatch = useAppDispatch();
-  //Заглушка :D
-  const {images} = currentOffer as FullOfferType;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferById(id));
+      dispatch(fetchNearbyOffers(id));
+      dispatch(fetchComments(id));
+    }
+  }, [id, dispatch]);
+
+  const isLoading = useAppSelector((state) => state.offers.currentOfferData.offerLoadingStatus);
+  const currentOffer = useAppSelector((state) => state.offers.currentOfferData.data);
+  const nearbyOffers = useAppSelector((state) => state.offers.currentOfferData.nearbyOffers);
+  const currentComments = useAppSelector((state) => state.offers.currentOfferData.comments);
+  const currentCity = useAppSelector((state) => state.city);
 
   useEffect(() => {
     if (currentOffer) {
@@ -28,7 +35,11 @@ function OfferScreen(): JSX.Element {
     }
   }, [currentOffer, dispatch]);
 
-  if (typeof currentOffer === 'undefined') {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!currentOffer) {
     return <NotFoundScreen />;
   }
 
@@ -43,13 +54,17 @@ function OfferScreen(): JSX.Element {
       <section className="offer">
 
         <div className="offer__gallery-container container">
-          {/* Вот тут использовал заглушку */}
-          <Gallery images={images}/>
+          <Gallery images={currentOffer.images}/>
         </div>
 
-        <Offer currentOffer={currentOffer} />
+        <Offer currentOffer={currentOffer} comments={currentComments} />
 
-        <Map offers={[...nearbyOffers, currentOffer]} activeOffer={currentOffer} classModificator = 'offer' city={currentCity}/>
+        <Map
+          offers={[...nearbyOffers.slice(0, 3), currentOffer]}
+          activeOffer={currentOffer}
+          classModificator = 'offer'
+          city={currentCity}
+        />
       </section>
 
       <div className="container">
@@ -57,7 +72,7 @@ function OfferScreen(): JSX.Element {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <PlacesList
-            offers={nearbyOffers}
+            offers={nearbyOffers.slice(0, 3)}
             className={'near-places__list'}
           />
         </section>}

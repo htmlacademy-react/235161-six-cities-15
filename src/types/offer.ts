@@ -35,6 +35,7 @@ export type FullOfferType = {
   bedrooms: number;
   goods: string[];
   maxAdults: number;
+  host: UserType;
   comments: ReviewItemType[];
   rating: number;
   previewImage: string;
