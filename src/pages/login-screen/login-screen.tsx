@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {useRef, FormEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AppRoutes } from '../../const';
 
@@ -14,6 +14,8 @@ function LoginScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const currentCity = useAppSelector((state) => state.city);
 
   const handleSubmit = (evt: FormEvent<HTMLElement>) => {
     evt.preventDefault();
@@ -76,7 +78,7 @@ function LoginScreen(): JSX.Element {
         <section className="locations locations--login locations--current">
           <div className="locations__item">
             <Link className="locations__item-link" to={AppRoutes.Main}>
-              <span>Amsterdam</span>
+              <span>{currentCity.name}</span>
             </Link>
           </div>
         </section>
