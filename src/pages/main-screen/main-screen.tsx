@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAppSelector } from '../../hooks';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
@@ -16,9 +16,9 @@ function MainScreen(): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
 
-  const handleHover = (offer?: OfferType) => {
+  const handleHover = useCallback((offer?: OfferType) => {
     setActiveOffer(offer || null);
-  };
+  }, []);
 
   useEffect(() => {
     setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
