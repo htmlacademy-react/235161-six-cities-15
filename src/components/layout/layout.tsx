@@ -72,9 +72,12 @@ function Layout(): JSX.Element {
                     </li>
                   )}
                   <li className="header__nav-item">
-                    <Link className="header__nav-link" to={AppRoutes.Login}>
-                      {authStatus === AuthorizationStatus.Auth ?
-                        (<span onClick={handleSignOutClick} className="header__signout">Sign out</span>)
+                    <Link
+                      className="header__nav-link"
+                      to={authStatus === AuthorizationStatus.Auth ? AppRoutes.Main : AppRoutes.Login}
+                    >
+                      {authStatus === AuthorizationStatus.Auth
+                        ? (<span onClick={handleSignOutClick} className="header__signout">Sign out</span>)
                         : (<><div className="header__avatar-wrapper user__avatar-wrapper"></div><span className="header__login">Sign in</span></>)}
                     </Link>
                   </li>

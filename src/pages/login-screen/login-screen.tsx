@@ -64,7 +64,7 @@ function LoginScreen(): JSX.Element {
                 type="password"
                 name="password"
                 placeholder="Password"
-                pattern="pattern=[A-Za-z0-9]{2, 100}"
+                pattern="[A-Za-z0-9]{2,}"
                 title="Пароль должен состоять только из латинских букв и цифр, и быть не менее 2 символов в длину"
                 required
               />
