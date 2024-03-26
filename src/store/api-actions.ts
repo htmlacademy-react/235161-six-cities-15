@@ -9,7 +9,7 @@ import { authorizationSlice } from './slices/authorizationSlice';
 import { userSlice } from './slices/userSlice';
 import { APIRoute, AuthorizationStatus } from '../const';
 
-const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, changeLoadingStatus, changeOfferLoadingStatus} = offersSlice.actions;
+const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, changeCardsLoadingStatus, changeOfferLoadingStatus} = offersSlice.actions;
 const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
 const {saveUserData} = userSlice.actions;
 
@@ -21,12 +21,12 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
   'offers/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      dispatch(changeLoadingStatus(true));
+      dispatch(changeCardsLoadingStatus(true));
       const response = await api.get<OfferType[]>(APIRoute.Offers);
       dispatch(loadOffers(response.data));
-      dispatch(changeLoadingStatus(false));
+      dispatch(changeCardsLoadingStatus(false));
     } catch {
-      dispatch(changeLoadingStatus(false));
+      dispatch(changeCardsLoadingStatus(false));
     }
   }
 );

@@ -12,7 +12,7 @@ import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
 
 function App(): JSX.Element {
-  const isLoading = useAppSelector((state) => state.offers.loadingStatus);
+  const isLoading = useAppSelector((state) => state.offers.cards.cardsLoadingStatus);
 
   if (isLoading) {
     return <Loader />;

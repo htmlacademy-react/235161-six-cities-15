@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers.cardsData);
+  const offers = useAppSelector((state) => state.offers.cards.cardsData);
 
   return (
     <main className="page__main page__main--favorites">

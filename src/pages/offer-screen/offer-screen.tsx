@@ -26,7 +26,7 @@ function OfferScreen(): JSX.Element {
   const isLoading = useAppSelector((state) => state.offers.currentOfferData.offerLoadingStatus);
   const currentOffer = useAppSelector((state) => state.offers.currentOfferData.data);
   const nearbyOffers = useAppSelector((state) => state.offers.currentOfferData.nearbyOffers);
-  const currentComments = useAppSelector((state) => state.offers.currentOfferData.comments);
+  const currentComments = useAppSelector((state) => state.offers.currentOfferData.comments.commentsData);
   const currentCity = useAppSelector((state) => state.city);
 
   useEffect(() => {
