@@ -10,7 +10,7 @@ import { userSlice } from './slices/userSlice';
 import { APIRoute, AuthorizationStatus } from '../const';
 
 const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, changeLoadingStatus, changeOfferLoadingStatus} = offersSlice.actions;
-const {changeAuthStatus} = authorizationSlice.actions;
+const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
 const {saveUserData} = userSlice.actions;
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
@@ -95,11 +95,17 @@ export const loginAction = createAsyncThunk<void, AuthInfoType, {
 }>(
   'user/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
+    try {
+      const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
 
-    saveToken(data.token);
-    dispatch(saveUserData(data));
-    dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+      saveToken(data.token);
+      dispatch(changeAuthErrorStatus(false));
+      dispatch(saveUserData(data));
+      dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
+      dispatch(changeAuthErrorStatus(true));
+    }
   }
 );
 

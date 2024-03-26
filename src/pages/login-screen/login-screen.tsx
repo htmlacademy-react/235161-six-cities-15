@@ -1,32 +1,45 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import {useRef, FormEvent} from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useState, FormEvent, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AppRoutes } from '../../const';
 
-const PASSWORD_REGEXP = /^.*(?=.*[a-zA-Z])(?=.*\d).*$/;
 
 function LoginScreen(): JSX.Element {
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const currentCity = useAppSelector((state) => state.city);
+  const authErrorStatus = useAppSelector((state) => state.authorization.authErrorStatus);
+
+  const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const emailValue = evt.target.value;
+    setEmail(emailValue);
+  };
+
+  const handlePasswordInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const passwordValue = evt.target.value;
+    setPassword(passwordValue);
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLElement>) => {
     evt.preventDefault();
 
-    if (emailRef.current !== null && passwordRef.current !== null && PASSWORD_REGEXP.test(passwordRef.current.value)) {
+    if (email !== '' && password !== '') {
       dispatch(loginAction({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
+        email: email,
+        password: password,
       }));
 
-      navigate(AppRoutes.Main);
+      if (!authErrorStatus) {
+        navigate(AppRoutes.Main);
+      }
     }
   };
 
@@ -49,7 +62,7 @@ function LoginScreen(): JSX.Element {
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
               <input
-                ref={emailRef}
+                onChange={handleEmailInputChange}
                 className="login__input form__input"
                 type="email" name="email"
                 placeholder="Email"
@@ -59,7 +72,7 @@ function LoginScreen(): JSX.Element {
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
               <input
-                ref={passwordRef}
+                onChange={handlePasswordInputChange}
                 className="login__input form__input"
                 type="password"
                 name="password"

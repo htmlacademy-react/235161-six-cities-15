@@ -3,10 +3,12 @@ import { AuthorizationStatus } from '../../const';
 
 type AuthorizationSliceType = {
   authStatus: AuthorizationStatus;
+  authErrorStatus: boolean;
 }
 
 const initialState: AuthorizationSliceType = {
   authStatus: AuthorizationStatus.Unknown,
+  authErrorStatus: false,
 };
 
 export const authorizationSlice = createSlice({
@@ -15,6 +17,9 @@ export const authorizationSlice = createSlice({
   reducers: {
     changeAuthStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
       state.authStatus = action.payload;
+    },
+    changeAuthErrorStatus: (state, action: PayloadAction<boolean>) => {
+      state.authErrorStatus = action.payload;
     }
   }
 });
