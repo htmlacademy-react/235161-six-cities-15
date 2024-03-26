@@ -1,21 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { getOffers } from '../action';
-import { OfferType } from '../../types/offer';
-import { offers } from '../../mock/offers';
+import { OfferType, FullOfferType, ReviewItemType } from '../../types/offer';
 
-const initialState: OfferType[] = [];
+type OffersSliceType = {
+  cardsData: OfferType[];
+  currentOfferData: {
+    data: FullOfferType | null;
+    nearbyOffers: OfferType[];
+    comments: ReviewItemType[];
+    offerLoadingStatus: boolean;
+  };
+  loadingStatus: boolean;
+}
+
+const initialState: OffersSliceType = {
+  cardsData: [],
+  currentOfferData: {
+    data: null,
+    nearbyOffers: [],
+    comments: [],
+    offerLoadingStatus: false,
+  },
+  loadingStatus: false,
+};
 
 //TODO: Нужно доработать, доработаю в 7 модуле
-const offersSlice = createSlice({
+export const offersSlice = createSlice({
   name: 'offers',
   initialState,
   reducers: {
-    getOffers: () => [...offers]
+    loadOffers: (state, action: PayloadAction<OfferType[]>) => {
+      state.cardsData = action.payload;
+    },
+    loadOfferById: (state, action: PayloadAction<FullOfferType | null>) => {
+      state.currentOfferData.data = action.payload;
+    },
+    loadNearbyOffers: (state, action: PayloadAction<OfferType[]>) => {
+      state.currentOfferData.nearbyOffers = action.payload;
+    },
+    loadComments: (state, action: PayloadAction<ReviewItemType[]>) => {
+      state.currentOfferData.comments = action.payload;
+    },
+    changeLoadingStatus: (state, action: PayloadAction<boolean>) => {
+      state.loadingStatus = action.payload;
+    },
+    changeOfferLoadingStatus: (state, action: PayloadAction<boolean>) => {
+      state.currentOfferData.offerLoadingStatus = action.payload;
+    }
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(getOffers, () => [...offers]);
-  // }
 });
 
 export const offersReducer = offersSlice.reducer;
