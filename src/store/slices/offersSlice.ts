@@ -15,13 +15,13 @@ type OffersSliceType = {
 
 const initialState: OffersSliceType = {
   cardsData: [],
+  loadingStatus: false,
   currentOfferData: {
     data: null,
     nearbyOffers: [],
     comments: [],
     offerLoadingStatus: false,
   },
-  loadingStatus: false,
 };
 
 //TODO: Нужно доработать, доработаю в 7 модуле
