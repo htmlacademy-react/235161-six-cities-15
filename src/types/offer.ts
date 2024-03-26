@@ -16,7 +16,7 @@ export type UserType = {
 }
 
 export type ReviewItemType = {
-  id: string | number;
+  id: string;
   date: string;
   user: UserType;
   comment: string;
@@ -24,7 +24,7 @@ export type ReviewItemType = {
 }
 
 export type FullOfferType = {
-  id: number | string;
+  id: string;
   title: string;
   type: string;
   price: number;

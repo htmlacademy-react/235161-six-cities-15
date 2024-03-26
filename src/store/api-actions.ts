@@ -9,7 +9,7 @@ import { authorizationSlice } from './slices/authorizationSlice';
 import { userSlice } from './slices/userSlice';
 import { APIRoute, AuthorizationStatus } from '../const';
 
-const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, changeCardsLoadingStatus, changeOfferLoadingStatus} = offersSlice.actions;
+const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, addReview, changeCardsLoadingStatus, changeOfferLoadingStatus, changePostReviewErrorStatus} = offersSlice.actions;
 const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
 const {saveUserData} = userSlice.actions;
 
@@ -59,6 +59,32 @@ export const fetchComments = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<ReviewItemType[]>(`${APIRoute.Comments}/${id}`);
     dispatch(loadComments(data));
+  }
+);
+
+type postReviewType = {
+  id: string;
+  reviewData: {
+    review: string;
+    rating: number;
+  };
+}
+
+export const postReview = createAsyncThunk<void, postReviewType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/postReview',
+  async ({id, reviewData}, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
+
+      dispatch(changePostReviewErrorStatus(false));
+      dispatch(addReview(data));
+    } catch {
+      dispatch(changePostReviewErrorStatus(true));
+    }
   }
 );
 

@@ -12,6 +12,7 @@ type OffersSliceType = {
     nearbyOffers: OfferType[];
     comments: {
       commentsData: ReviewItemType[];
+      commentPostErrorStatus: boolean;
     };
     offerLoadingStatus: boolean;
   };
@@ -28,6 +29,7 @@ const initialState: OffersSliceType = {
     nearbyOffers: [],
     comments: {
       commentsData: [],
+      commentPostErrorStatus: false,
     },
     offerLoadingStatus: false,
   },
@@ -49,12 +51,18 @@ export const offersSlice = createSlice({
     loadComments: (state, action: PayloadAction<ReviewItemType[]>) => {
       state.currentOfferData.comments.commentsData = action.payload;
     },
+    addReview: (state, action: PayloadAction<ReviewItemType>) => {
+      state.currentOfferData.comments.commentsData.push(action.payload);
+    },
     changeCardsLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.cards.cardsLoadingStatus = action.payload;
     },
     changeOfferLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.currentOfferData.offerLoadingStatus = action.payload;
-    }
+    },
+    changePostReviewErrorStatus: (state, action: PayloadAction<boolean>) => {
+      state.currentOfferData.comments.commentPostErrorStatus = action.payload;
+    },
   },
 });
 
