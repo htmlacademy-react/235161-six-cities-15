@@ -3,7 +3,6 @@ import { useAppSelector } from '../../hooks';
 import {AppRoutes, AuthorizationStatus} from '../../const';
 
 type PrivateRouteProps = {
-  // authorizationStatus: AuthorizationStatus;
   children: JSX.Element;
   isReverse?: boolean;
 }

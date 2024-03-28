@@ -23,10 +23,6 @@ function getLayoutState(pathname: string) {
   return {mainClassName, linkClassName, shouldRenderUser};
 }
 
-// type LayoutProps = {
-//   authorizationStatus: AuthorizationStatus;
-// }
-
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
   const authStatus = useAppSelector((state) => state.authorization.authStatus);
