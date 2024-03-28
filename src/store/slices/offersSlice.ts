@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { getOffers } from '../action';
 import { OfferType, FullOfferType, ReviewItemType } from '../../types/offer';
 
 type OffersSliceType = {
