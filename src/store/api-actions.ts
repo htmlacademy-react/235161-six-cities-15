@@ -9,8 +9,8 @@ import { authorizationSlice } from './slices/authorizationSlice';
 import { userSlice } from './slices/userSlice';
 import { APIRoute, AuthorizationStatus } from '../const';
 
-const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, changeLoadingStatus, changeOfferLoadingStatus} = offersSlice.actions;
-const {changeAuthStatus} = authorizationSlice.actions;
+const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, addReview, changeCardsLoadingStatus, changeOfferLoadingStatus, changePostReviewErrorStatus} = offersSlice.actions;
+const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
 const {saveUserData} = userSlice.actions;
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
@@ -20,10 +20,14 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
 }>(
   'offers/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(changeLoadingStatus(true));
-    const response = await api.get<OfferType[]>(APIRoute.Offers);
-    dispatch(changeLoadingStatus(false));
-    dispatch(loadOffers(response.data));
+    try {
+      dispatch(changeCardsLoadingStatus(true));
+      const response = await api.get<OfferType[]>(APIRoute.Offers);
+      dispatch(loadOffers(response.data));
+      dispatch(changeCardsLoadingStatus(false));
+    } catch {
+      dispatch(changeCardsLoadingStatus(false));
+    }
   }
 );
 
@@ -55,6 +59,32 @@ export const fetchComments = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<ReviewItemType[]>(`${APIRoute.Comments}/${id}`);
     dispatch(loadComments(data));
+  }
+);
+
+type postReviewType = {
+  id: string;
+  reviewData: {
+    review: string;
+    rating: number;
+  };
+}
+
+export const postReview = createAsyncThunk<void, postReviewType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/postReview',
+  async ({id, reviewData}, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
+
+      dispatch(changePostReviewErrorStatus(false));
+      dispatch(addReview(data));
+    } catch {
+      dispatch(changePostReviewErrorStatus(true));
+    }
   }
 );
 
@@ -95,11 +125,17 @@ export const loginAction = createAsyncThunk<void, AuthInfoType, {
 }>(
   'user/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
+    try {
+      const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
 
-    saveToken(data.token);
-    dispatch(saveUserData(data));
-    dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+      saveToken(data.token);
+      dispatch(changeAuthErrorStatus(false));
+      dispatch(saveUserData(data));
+      dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
+      dispatch(changeAuthErrorStatus(true));
+    }
   }
 );
 

@@ -9,7 +9,7 @@ import Map from '../../components/map/map';
 import EmptyPlacesContainer from '../../components/empty-places-container/empty-places-container';
 
 function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers.cardsData);
+  const offers = useAppSelector((state) => state.offers.cards.cardsData);
   const currentCity = useAppSelector((state) => state.city);
   const currentSortingType = useAppSelector((state) => state.sorting);
 

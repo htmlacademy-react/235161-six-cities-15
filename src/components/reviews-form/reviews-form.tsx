@@ -1,6 +1,8 @@
-import { useState, ChangeEvent } from 'react';
-import { RATINGS } from '../../const';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { postReview } from '../../store/api-actions';
 import RatingInput from '../../components/rating-input/rating-input';
+import { RATINGS } from '../../const';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -11,6 +13,10 @@ type ReviewFormData = {
 }
 
 function ReviewsForm(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const id = useAppSelector((state) => state.offers.currentOfferData.data?.id);
+  const commentPostErrorStatus = useAppSelector((state) => state.offers.currentOfferData.comments.commentPostErrorStatus);
+
   const [formData, setFormData] = useState<ReviewFormData>({
     review: '',
     rating: 0,
@@ -30,11 +36,31 @@ function ReviewsForm(): JSX.Element {
     setFormData({ ...formData, rating: newRating });
   };
 
+  const handleReviewFormSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
+
+    if (id) {
+      dispatch(postReview({id: id, reviewData: formData}));
+    }
+
+    if (!commentPostErrorStatus) {
+      setFormData({
+        review: '',
+        rating: 0,
+      });
+    }
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleReviewFormSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((rating) => <RatingInput key={rating.value} onRatingChange={handleRatingChange} rating={rating}/>)}
+        {RATINGS.map((ratingItem) => <RatingInput key={ratingItem.value} onRatingChange={handleRatingChange} rating={ratingItem} checkedValue={String(formData.rating)}/>)}
       </div>
       <textarea
         onChange={handleCommentFieldChange}
