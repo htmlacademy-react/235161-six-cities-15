@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/selectors/authorization-selectors';
+import { getUserData } from '../../store/selectors/user-selectors';
 import { AppRoutes } from '../../const';
 import { AuthorizationStatus } from '../../const';
 
@@ -27,7 +28,7 @@ function getLayoutState(pathname: string) {
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
   const authStatus = useAppSelector(getAuthStatus);
-  const userData = useAppSelector((state) => state.USER.userData);
+  const userData = useAppSelector(getUserData);
   const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
 
