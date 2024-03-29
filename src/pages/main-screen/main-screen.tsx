@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getOffers } from '../../store/selectors/offers-selectors';
+import { getCurrentCity } from '../../store/selectors/city-selectors';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
@@ -11,7 +12,7 @@ import EmptyPlacesContainer from '../../components/empty-places-container/empty-
 
 function MainScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
-  const currentCity = useAppSelector((state) => state.CITY);
+  const currentCity = useAppSelector(getCurrentCity);
   const currentSortingType = useAppSelector((state) => state.SORTING);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);

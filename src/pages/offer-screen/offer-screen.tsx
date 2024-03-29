@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/action';
 import { fetchOfferById, fetchNearbyOffers, fetchComments } from '../../store/api-actions';
+import { getCurrentOffer, getCurrentOfferLoadingStatus, getNearbyOffers, getComments } from '../../store/selectors/offers-selectors';
+import { getCurrentCity } from '../../store/selectors/city-selectors';
 import PlacesList from '../../components/places-list/places-list';
 import Gallery from '../../components/gallery/gallery';
 import Offer from '../../components/offer/offer';
@@ -23,11 +25,11 @@ function OfferScreen(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const isLoading = useAppSelector((state) => state.OFFERS.currentOfferData.offerLoadingStatus);
-  const currentOffer = useAppSelector((state) => state.OFFERS.currentOfferData.data);
-  const nearbyOffers = useAppSelector((state) => state.OFFERS.currentOfferData.nearbyOffers);
-  const currentComments = useAppSelector((state) => state.OFFERS.currentOfferData.comments.commentsData);
-  const currentCity = useAppSelector((state) => state.CITY);
+  const isLoading = useAppSelector(getCurrentOfferLoadingStatus);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const currentComments = useAppSelector(getComments);
+  const currentCity = useAppSelector(getCurrentCity);
 
   useEffect(() => {
     if (currentOffer) {

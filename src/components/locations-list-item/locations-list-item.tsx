@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import { changeCity } from '../../store/action';
+import { getCurrentCity } from '../../store/selectors/city-selectors';
 import { CityType } from '../../types/offer';
 
 type LocationsListItemProps = {
@@ -10,7 +11,7 @@ type LocationsListItemProps = {
 function LocationsListItem({city}: LocationsListItemProps): JSX.Element {
   const {name} = city;
   const activeItemClass = 'tabs__item--active';
-  const currentCity = useAppSelector((state) => state.CITY);
+  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
   function handleCityClick(evt: MouseEvent<HTMLElement>) {
