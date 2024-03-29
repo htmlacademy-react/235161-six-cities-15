@@ -28,8 +28,8 @@ function ReviewsForm(): JSX.Element {
     formData.rating !== 0;
 
   const handleCommentFieldChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    const {name, value} = evt.target;
-    setFormData({...formData, [name]: value});
+    const {value} = evt.target;
+    setFormData({...formData, review: value});
   };
 
   const handleRatingChange = (newRating: number) => {
@@ -67,6 +67,7 @@ function ReviewsForm(): JSX.Element {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
+        value={formData.review}
         placeholder="Tell how was your stay, what you like and what can be improved"
         minLength={MIN_COMMENT_LENGTH}
         maxLength={MAX_COMMENT_LENGTH}

@@ -4,12 +4,12 @@ import {AppDispatch, State} from '../types/state';
 import {saveToken, dropToken} from '../services/token';
 import { FullOfferType, OfferType, ReviewItemType } from '../types/offer';
 import { AuthInfoType, LoggedUserType } from '../types/authorization';
-import { offersSlice } from './slices/offersSlice';
+// import { offersSlice } from './slices/offersSlice';
 // import { authorizationSlice } from './slices/authorizationSlice';
 // import { userSlice } from './slices/userSlice';
 import { APIRoute } from '../const';
 
-const {loadOfferById, loadNearbyOffers, loadComments, addReview, changeOfferLoadingStatus, changePostReviewErrorStatus} = offersSlice.actions;
+// const {loadNearbyOffers} = offersSlice.actions;
 // const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
 // const {saveUserData} = userSlice.actions;
 
@@ -26,34 +26,35 @@ export const fetchOffers = createAsyncThunk<OfferType[], undefined, {
   }
 );
 
-export const fetchOfferById = createAsyncThunk<void, string, {
+export const fetchOfferById = createAsyncThunk<FullOfferType, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/fetchOfferById',
-  async (id, {dispatch, extra: api}) => {
-    try {
-      dispatch(changeOfferLoadingStatus(true));
-      const {data} = await api.get<FullOfferType>(`${APIRoute.Offers}/${id}`);
-      dispatch(loadOfferById(data));
-      dispatch(changeOfferLoadingStatus(false));
-    } catch {
-      dispatch(changeOfferLoadingStatus(false));
-    }
-
+  async (id, {extra: api}) => {
+    // try {
+    //   dispatch(changeOfferLoadingStatus(true));
+    const {data} = await api.get<FullOfferType>(`${APIRoute.Offers}/${id}`);
+    return data;
+    // dispatch(loadOfferById(data));
+    // dispatch(changeOfferLoadingStatus(false));
+    // } catch {
+    //   dispatch(changeOfferLoadingStatus(false));
+    // }
   }
 );
 
-export const fetchComments = createAsyncThunk<void, string, {
+export const fetchComments = createAsyncThunk<ReviewItemType[], string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/fetchComments',
-  async (id, {dispatch, extra: api}) => {
+  async (id, {extra: api}) => {
     const {data} = await api.get<ReviewItemType[]>(`${APIRoute.Comments}/${id}`);
-    dispatch(loadComments(data));
+    // dispatch(loadComments(data));
+    return data;
   }
 );
 
@@ -65,33 +66,34 @@ type postReviewType = {
   };
 }
 
-export const postReview = createAsyncThunk<void, postReviewType, {
+export const postReview = createAsyncThunk<ReviewItemType, postReviewType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/postReview',
-  async ({id, reviewData}, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
-
-      dispatch(changePostReviewErrorStatus(false));
-      dispatch(addReview(data));
-    } catch {
-      dispatch(changePostReviewErrorStatus(true));
-    }
+  async ({id, reviewData}, {extra: api}) => {
+    // try {
+    const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
+    return data;
+    // dispatch(changePostReviewErrorStatus(false));
+    // dispatch(addReview(data));
+    // } catch {
+    //   dispatch(changePostReviewErrorStatus(true));
+    // }
   }
 );
 
-export const fetchNearbyOffers = createAsyncThunk<void, string, {
+export const fetchNearbyOffers = createAsyncThunk<OfferType[], string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/fetchNearbyOffers',
-  async (id, {dispatch, extra: api}) => {
+  async (id, {extra: api}) => {
     const {data} = await api.get<OfferType[]>(`${APIRoute.Offers}/${id}/nearby`);
-    dispatch(loadNearbyOffers(data));
+    return data;
+    // dispatch(loadNearbyOffers(data));
   }
 );
 
