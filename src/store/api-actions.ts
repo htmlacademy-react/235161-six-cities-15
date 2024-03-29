@@ -5,13 +5,13 @@ import {saveToken, dropToken} from '../services/token';
 import { FullOfferType, OfferType, ReviewItemType } from '../types/offer';
 import { AuthInfoType, LoggedUserType } from '../types/authorization';
 import { offersSlice } from './slices/offersSlice';
-import { authorizationSlice } from './slices/authorizationSlice';
-import { userSlice } from './slices/userSlice';
-import { APIRoute, AuthorizationStatus } from '../const';
+// import { authorizationSlice } from './slices/authorizationSlice';
+// import { userSlice } from './slices/userSlice';
+import { APIRoute } from '../const';
 
 const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, addReview, changeCardsLoadingStatus, changeOfferLoadingStatus, changePostReviewErrorStatus} = offersSlice.actions;
-const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
-const {saveUserData} = userSlice.actions;
+// const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
+// const {saveUserData} = userSlice.actions;
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -100,42 +100,43 @@ export const fetchNearbyOffers = createAsyncThunk<void, string, {
   }
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<LoggedUserType, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get<LoggedUserType>(APIRoute.Login);
-
-      dispatch(saveUserData(data));
-      dispatch(changeAuthStatus(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
-    }
+  async (_arg, {extra: api}) => {
+    // try {
+    const {data} = await api.get<LoggedUserType>(APIRoute.Login);
+    // await api.get<LoggedUserType>(APIRoute.Login);
+    return data;
+    // dispatch(saveUserData(data));
+    //   dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+    // } catch {
+    //   dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
+    // }
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthInfoType, {
+export const loginAction = createAsyncThunk<LoggedUserType, AuthInfoType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({email, password}, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
-
-      saveToken(data.token);
-      dispatch(changeAuthErrorStatus(false));
-      dispatch(saveUserData(data));
-      dispatch(changeAuthStatus(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
-      dispatch(changeAuthErrorStatus(true));
-    }
+  async ({email, password}, {extra: api}) => {
+    // try {
+    const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+    //   dispatch(changeAuthErrorStatus(false));
+    //   dispatch(saveUserData(data));
+    //   dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+    // } catch {
+    //   dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
+    //   dispatch(changeAuthErrorStatus(true));
+    // }
+    return data;
   }
 );
 
@@ -145,10 +146,10 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
-    dispatch(saveUserData(null));
+    // dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
+    // dispatch(saveUserData(null));
   }
 );

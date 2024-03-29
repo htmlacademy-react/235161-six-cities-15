@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { LoggedUserType } from '../../types/authorization';
+import { NameSpace } from '../../const';
 
 type UserSliceType = {
   userData: LoggedUserType | null;
@@ -10,12 +12,26 @@ const initialState: UserSliceType = {
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: NameSpace.User,
   initialState,
   reducers: {
-    saveUserData: (state, action: PayloadAction<LoggedUserType | null>) => {
-      state.userData = action.payload;
-    }
+    // saveUserData: (state, action: PayloadAction<LoggedUserType | null>) => {
+    //   state.userData = action.payload;
+    // }
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(checkAuthAction.fulfilled, (state, action) => {
+        state.userData = action.payload;
+      })
+
+      .addCase(loginAction.fulfilled, (state, action) => {
+        state.userData = action.payload;
+      })
+
+      .addCase(logoutAction.fulfilled, (state) => {
+        state.userData = null;
+      });
   }
 });
 
