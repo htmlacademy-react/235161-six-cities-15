@@ -25,8 +25,8 @@ function getLayoutState(pathname: string) {
 
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
-  const authStatus = useAppSelector((state) => state.authorization.authStatus);
-  const userData = useAppSelector((state) => state.user.userData);
+  const authStatus = useAppSelector((state) => state.AUTHORIZATION.authStatus);
+  const userData = useAppSelector((state) => state.USER.userData);
   const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
 

@@ -13,7 +13,7 @@ type OfferProps = {
 function Offer({currentOffer, comments}: OfferProps): JSX.Element {
   const {bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
   const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
-  const authStatus = useAppSelector((state) => state.authorization.authStatus);
+  const authStatus = useAppSelector((state) => state.AUTHORIZATION.authStatus);
 
   return (
     <div className="offer__container container">

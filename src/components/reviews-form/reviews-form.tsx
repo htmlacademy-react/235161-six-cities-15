@@ -14,8 +14,8 @@ type ReviewFormData = {
 
 function ReviewsForm(): JSX.Element {
   const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.offers.currentOfferData.data?.id);
-  const commentPostErrorStatus = useAppSelector((state) => state.offers.currentOfferData.comments.commentPostErrorStatus);
+  const id = useAppSelector((state) => state.OFFERS.currentOfferData.data?.id);
+  const commentPostErrorStatus = useAppSelector((state) => state.OFFERS.currentOfferData.comments.commentPostErrorStatus);
 
   const [formData, setFormData] = useState<ReviewFormData>({
     review: '',

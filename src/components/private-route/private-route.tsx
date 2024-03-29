@@ -8,7 +8,7 @@ type PrivateRouteProps = {
 }
 
 function PrivateRoute({children, isReverse}: PrivateRouteProps): JSX.Element {
-  const authStatus = useAppSelector((state) => state.authorization.authStatus);
+  const authStatus = useAppSelector((state) => state.AUTHORIZATION.authStatus);
 
   return (
     authStatus === (isReverse ? AuthorizationStatus.NoAuth : AuthorizationStatus.Auth)

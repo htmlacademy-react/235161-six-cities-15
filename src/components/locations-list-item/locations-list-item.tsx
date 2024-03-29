@@ -10,7 +10,7 @@ type LocationsListItemProps = {
 function LocationsListItem({city}: LocationsListItemProps): JSX.Element {
   const {name} = city;
   const activeItemClass = 'tabs__item--active';
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector((state) => state.CITY);
   const dispatch = useAppDispatch();
 
   function handleCityClick(evt: MouseEvent<HTMLElement>) {

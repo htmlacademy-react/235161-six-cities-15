@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
 import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/selectors/offers-selectors';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
@@ -9,9 +10,9 @@ import Map from '../../components/map/map';
 import EmptyPlacesContainer from '../../components/empty-places-container/empty-places-container';
 
 function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers.cards.cardsData);
-  const currentCity = useAppSelector((state) => state.city);
-  const currentSortingType = useAppSelector((state) => state.sorting);
+  const offers = useAppSelector(getOffers);
+  const currentCity = useAppSelector((state) => state.CITY);
+  const currentSortingType = useAppSelector((state) => state.SORTING);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);

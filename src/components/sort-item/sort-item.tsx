@@ -9,7 +9,7 @@ type SortItemProps = {
 
 function SortItem({sortType}: SortItemProps): JSX.Element {
   const {name} = sortType;
-  const activeSortType = useAppSelector((state) => state.sorting);
+  const activeSortType = useAppSelector((state) => state.SORTING);
   const activeSortTypeClass = 'places__option--active';
   const dispatch = useAppDispatch();
 

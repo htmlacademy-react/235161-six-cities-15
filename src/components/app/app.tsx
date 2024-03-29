@@ -1,6 +1,7 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks';
+import { getOffersLoadingStatus } from '../../store/selectors/offers-selectors';
 import { AppRoutes } from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
@@ -12,7 +13,7 @@ import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
 
 function App(): JSX.Element {
-  const isLoading = useAppSelector((state) => state.offers.cards.cardsLoadingStatus);
+  const isLoading = useAppSelector(getOffersLoadingStatus);
 
   if (isLoading) {
     return <Loader />;

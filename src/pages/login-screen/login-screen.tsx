@@ -15,8 +15,8 @@ function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const currentCity = useAppSelector((state) => state.city);
-  const authErrorStatus = useAppSelector((state) => state.authorization.authErrorStatus);
+  const currentCity = useAppSelector((state) => state.CITY);
+  const authErrorStatus = useAppSelector((state) => state.AUTHORIZATION.authErrorStatus);
 
   const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const emailValue = evt.target.value;

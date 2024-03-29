@@ -4,13 +4,14 @@ import { offersReducer } from './offers-slice';
 import { sortingReducer } from './sorting-slice';
 import { authorizationReducer } from './authorization-slice';
 import { userReducer } from './user-slice';
+import { NameSpace } from '../../const';
 
 const rootReducer = combineReducers({
-  city: cityReducer,
-  offers: offersReducer,
-  sorting: sortingReducer,
-  authorization: authorizationReducer,
-  user: userReducer,
+  [NameSpace.City]: cityReducer,
+  [NameSpace.Offers]: offersReducer,
+  [NameSpace.Sorting]: sortingReducer,
+  [NameSpace.Authorization]: authorizationReducer,
+  [NameSpace.User]: userReducer,
 });
 
 export default rootReducer;

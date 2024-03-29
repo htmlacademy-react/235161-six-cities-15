@@ -5,7 +5,7 @@ import SortItem from '../sort-item/sort-item';
 
 function Sort(): JSX.Element {
   const [isOptionsOpened, setIsOptionsOpened] = useState<boolean>(false);
-  const currentSortingType = useAppSelector((state) => state.sorting);
+  const currentSortingType = useAppSelector((state) => state.SORTING);
   const sortingRef = useRef<HTMLFormElement>(null);
 
   function handleClickOutside(evt: MouseEvent) {
