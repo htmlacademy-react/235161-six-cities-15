@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import { cityReducer } from './citySlice';
-import { offersReducer } from './offersSlice';
-import { sortingReducer } from './sortingSlice';
-import { authorizationReducer } from './authorizationSlice';
-import { userReducer } from './userSlice';
+import { cityReducer } from './city-slice';
+import { offersReducer } from './offers-slice';
+import { sortingReducer } from './sorting-slice';
+import { authorizationReducer } from './authorization-slice';
+import { userReducer } from './user-slice';
 
 const rootReducer = combineReducers({
   city: cityReducer,
