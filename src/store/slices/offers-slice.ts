@@ -84,10 +84,11 @@ export const offersSlice = createSlice({
         state.currentOfferData.comments.commentLoadErrorStatus = true;
       })
 
-      .addCase(postReview.pending, (state) => {
-        state.currentOfferData.comments.commentPostErrorStatus = false;
-      })
+      // .addCase(postReview.pending, (state) => {
+      //   state.currentOfferData.comments.commentPostErrorStatus = false;
+      // })
       .addCase(postReview.fulfilled, (state, action) => {
+        state.currentOfferData.comments.commentPostErrorStatus = false;
         state.currentOfferData.comments.commentsData.push(action.payload);
       })
       .addCase(postReview.rejected, (state) => {

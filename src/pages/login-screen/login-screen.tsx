@@ -66,7 +66,9 @@ function LoginScreen(): JSX.Element {
               <input
                 onChange={handleEmailInputChange}
                 className="login__input form__input"
-                type="email" name="email"
+                type="email"
+                name="email"
+                value={email}
                 placeholder="Email"
                 required
               />
@@ -78,8 +80,9 @@ function LoginScreen(): JSX.Element {
                 className="login__input form__input"
                 type="password"
                 name="password"
+                value={password}
                 placeholder="Password"
-                pattern="[A-Za-z0-9]{2,}"
+                pattern="^.*(?=.*[a-zA-Z])(?=.*\d).*$"
                 title="Пароль должен состоять только из латинских букв и цифр, и быть не менее 2 символов в длину"
                 required
               />
