@@ -9,25 +9,20 @@ import { offersSlice } from './slices/offersSlice';
 // import { userSlice } from './slices/userSlice';
 import { APIRoute } from '../const';
 
-const {loadOffers, loadOfferById, loadNearbyOffers, loadComments, addReview, changeCardsLoadingStatus, changeOfferLoadingStatus, changePostReviewErrorStatus} = offersSlice.actions;
+const {loadOfferById, loadNearbyOffers, loadComments, addReview, changeOfferLoadingStatus, changePostReviewErrorStatus} = offersSlice.actions;
 // const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
 // const {saveUserData} = userSlice.actions;
 
-export const fetchOffers = createAsyncThunk<void, undefined, {
+export const fetchOffers = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      dispatch(changeCardsLoadingStatus(true));
-      const response = await api.get<OfferType[]>(APIRoute.Offers);
-      dispatch(loadOffers(response.data));
-      dispatch(changeCardsLoadingStatus(false));
-    } catch {
-      dispatch(changeCardsLoadingStatus(false));
-    }
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<OfferType[]>(APIRoute.Offers);
+
+    return data;
   }
 );
 
