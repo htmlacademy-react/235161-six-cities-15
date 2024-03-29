@@ -14,11 +14,7 @@ const initialState: UserSliceType = {
 export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
-  reducers: {
-    // saveUserData: (state, action: PayloadAction<LoggedUserType | null>) => {
-    //   state.userData = action.payload;
-    // }
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {

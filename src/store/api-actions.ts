@@ -4,14 +4,7 @@ import {AppDispatch, State} from '../types/state';
 import {saveToken, dropToken} from '../services/token';
 import { FullOfferType, OfferType, ReviewItemType } from '../types/offer';
 import { AuthInfoType, LoggedUserType } from '../types/authorization';
-// import { offersSlice } from './slices/offersSlice';
-// import { authorizationSlice } from './slices/authorizationSlice';
-// import { userSlice } from './slices/userSlice';
 import { APIRoute } from '../const';
-
-// const {loadNearbyOffers} = offersSlice.actions;
-// const {changeAuthStatus, changeAuthErrorStatus} = authorizationSlice.actions;
-// const {saveUserData} = userSlice.actions;
 
 export const fetchOffers = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
@@ -33,15 +26,8 @@ export const fetchOfferById = createAsyncThunk<FullOfferType, string, {
 }>(
   'offers/fetchOfferById',
   async (id, {extra: api}) => {
-    // try {
-    //   dispatch(changeOfferLoadingStatus(true));
     const {data} = await api.get<FullOfferType>(`${APIRoute.Offers}/${id}`);
     return data;
-    // dispatch(loadOfferById(data));
-    // dispatch(changeOfferLoadingStatus(false));
-    // } catch {
-    //   dispatch(changeOfferLoadingStatus(false));
-    // }
   }
 );
 
@@ -53,7 +39,6 @@ export const fetchComments = createAsyncThunk<ReviewItemType[], string, {
   'offers/fetchComments',
   async (id, {extra: api}) => {
     const {data} = await api.get<ReviewItemType[]>(`${APIRoute.Comments}/${id}`);
-    // dispatch(loadComments(data));
     return data;
   }
 );
@@ -73,14 +58,8 @@ export const postReview = createAsyncThunk<ReviewItemType, postReviewType, {
 }>(
   'offers/postReview',
   async ({id, reviewData}, {extra: api}) => {
-    // try {
     const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
     return data;
-    // dispatch(changePostReviewErrorStatus(false));
-    // dispatch(addReview(data));
-    // } catch {
-    //   dispatch(changePostReviewErrorStatus(true));
-    // }
   }
 );
 
@@ -93,7 +72,6 @@ export const fetchNearbyOffers = createAsyncThunk<OfferType[], string, {
   async (id, {extra: api}) => {
     const {data} = await api.get<OfferType[]>(`${APIRoute.Offers}/${id}/nearby`);
     return data;
-    // dispatch(loadNearbyOffers(data));
   }
 );
 
@@ -104,15 +82,8 @@ export const checkAuthAction = createAsyncThunk<LoggedUserType, undefined, {
 }>(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
-    // try {
     const {data} = await api.get<LoggedUserType>(APIRoute.Login);
-    // await api.get<LoggedUserType>(APIRoute.Login);
     return data;
-    // dispatch(saveUserData(data));
-    //   dispatch(changeAuthStatus(AuthorizationStatus.Auth));
-    // } catch {
-    //   dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
-    // }
   }
 );
 
@@ -123,16 +94,8 @@ export const loginAction = createAsyncThunk<LoggedUserType, AuthInfoType, {
 }>(
   'user/login',
   async ({email, password}, {extra: api}) => {
-    // try {
     const {data} = await api.post<LoggedUserType>(APIRoute.Login, {email, password});
     saveToken(data.token);
-    //   dispatch(changeAuthErrorStatus(false));
-    //   dispatch(saveUserData(data));
-    //   dispatch(changeAuthStatus(AuthorizationStatus.Auth));
-    // } catch {
-    //   dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
-    //   dispatch(changeAuthErrorStatus(true));
-    // }
     return data;
   }
 );
@@ -146,7 +109,5 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    // dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
-    // dispatch(saveUserData(null));
   }
 );

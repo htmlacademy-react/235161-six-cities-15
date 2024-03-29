@@ -15,14 +15,7 @@ const initialState: AuthorizationSliceType = {
 export const authorizationSlice = createSlice({
   name: NameSpace.Authorization,
   initialState,
-  reducers: {
-    // changeAuthStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
-    //   state.authStatus = action.payload;
-    // },
-    // changeAuthErrorStatus: (state, action: PayloadAction<boolean>) => {
-    //   state.authErrorStatus = action.payload;
-    // }
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(checkAuthAction.fulfilled, (state) => {
