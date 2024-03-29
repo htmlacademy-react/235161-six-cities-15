@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import { getCurrentCity } from '../../store/selectors/city-selectors';
 import { loginAction } from '../../store/api-actions';
 import { AppRoutes } from '../../const';
@@ -17,7 +18,7 @@ function LoginScreen(): JSX.Element {
   const navigate = useNavigate();
 
   const currentCity = useAppSelector(getCurrentCity);
-  const authErrorStatus = useAppSelector((state) => state.AUTHORIZATION.authErrorStatus);
+  const authErrorStatus = useAppSelector(getAuthStatus);
 
   const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const emailValue = evt.target.value;

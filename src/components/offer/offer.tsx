@@ -1,4 +1,5 @@
 import { useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewsForm from '../reviews-form/reviews-form';
@@ -13,7 +14,7 @@ type OfferProps = {
 function Offer({currentOffer, comments}: OfferProps): JSX.Element {
   const {bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
   const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
-  const authStatus = useAppSelector((state) => state.AUTHORIZATION.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <div className="offer__container container">
