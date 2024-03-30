@@ -14,7 +14,9 @@ type OffersSliceType = {
     nearbyOffers: OfferType[];
     comments: {
       commentsData: ReviewItemType[];
+      loadingStatus: boolean;
       commentLoadErrorStatus:boolean;
+      postLoadingStatus: boolean;
       commentPostErrorStatus: boolean;
     };
     offerLoadingStatus: boolean;
@@ -34,7 +36,9 @@ const initialState: OffersSliceType = {
     nearbyOffers: [],
     comments: {
       commentsData: [],
+      loadingStatus: false,
       commentLoadErrorStatus: false,
+      postLoadingStatus: false,
       commentPostErrorStatus: false,
     },
     offerLoadingStatus: false,
@@ -84,14 +88,16 @@ export const offersSlice = createSlice({
         state.currentOfferData.comments.commentLoadErrorStatus = true;
       })
 
-      // .addCase(postReview.pending, (state) => {
-      //   state.currentOfferData.comments.commentPostErrorStatus = false;
-      // })
+      .addCase(postReview.pending, (state) => {
+        state.currentOfferData.comments.postLoadingStatus = true;
+      })
       .addCase(postReview.fulfilled, (state, action) => {
+        state.currentOfferData.comments.postLoadingStatus = false;
         state.currentOfferData.comments.commentPostErrorStatus = false;
         state.currentOfferData.comments.commentsData.push(action.payload);
       })
       .addCase(postReview.rejected, (state) => {
+        state.currentOfferData.comments.postLoadingStatus = false;
         state.currentOfferData.comments.commentPostErrorStatus = true;
       })
 

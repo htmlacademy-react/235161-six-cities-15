@@ -18,6 +18,7 @@ function LoginScreen(): JSX.Element {
   const navigate = useNavigate();
 
   const currentCity = useAppSelector(getCurrentCity);
+  const authLoadingStatus = useAppSelector((state) => state.AUTHORIZATION.authLoadingStatus);
   const authErrorStatus = useAppSelector(getAuthStatus);
 
   const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -90,6 +91,7 @@ function LoginScreen(): JSX.Element {
             <button
               className="login__submit form__submit button"
               type="submit"
+              disabled={authLoadingStatus}
             >
               Sign in
             </button>
