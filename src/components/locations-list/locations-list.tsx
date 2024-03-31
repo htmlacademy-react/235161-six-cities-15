@@ -1,15 +1,28 @@
+import { memo } from 'react';
 import LocationsListItem from '../locations-list-item/locations-list-item';
 import { CITIES } from '../../const';
 
-function LocationsList(): JSX.Element {
-
-  return (
+const LocationsList = memo((): JSX.Element =>
+  (
     <ul className="locations__list tabs__list">
       {CITIES.map((city) =>
         <LocationsListItem key={city.name} city={city}/>
       )}
     </ul>
-  );
-}
+  )
+);
+
+LocationsList.displayName = 'LocationsList';
+
+// function LocationsList(): JSX.Element {
+
+//   return (
+//     <ul className="locations__list tabs__list">
+//       {CITIES.map((city) =>
+//         <LocationsListItem key={city.name} city={city}/>
+//       )}
+//     </ul>
+//   );
+// }
 
 export default LocationsList;
