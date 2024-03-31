@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getOffers } from '../../store/selectors/offers-selectors';
+import { getOffers, getOffersErrorStatus } from '../../store/selectors/offers-selectors';
 import { getCurrentCity } from '../../store/selectors/city-selectors';
 import { getCurrentSortingType } from '../../store/selectors/sorting-selectors';
 import { OfferType } from '../../types/offer';
@@ -15,6 +15,7 @@ function MainScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getCurrentCity);
   const currentSortingType = useAppSelector(getCurrentSortingType);
+  const offersLoardErrorStatus = useAppSelector(getOffersErrorStatus);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
@@ -59,9 +60,10 @@ function MainScreen(): JSX.Element {
           <LocationsList/>
         </section>
       </div>
+      {offersLoardErrorStatus && <h2>Произошла ошибка при загрузке данных</h2>}
       <div className="cities">
-        {offersInCurrentCity.length === 0 && <EmptyPlacesContainer />}
-        {offersInCurrentCity.length !== 0 &&
+        {/* {offersInCurrentCity.length === 0 && <EmptyPlacesContainer />} */}
+        {offersInCurrentCity.length !== 0 && !offersLoardErrorStatus ?
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
@@ -76,7 +78,7 @@ function MainScreen(): JSX.Element {
             <div className="cities__right-section">
               <Map offers={offersInCurrentCity} activeOffer={activeOffer} city={currentCity}/>
             </div>
-          </div>}
+          </div> : <EmptyPlacesContainer />}
       </div>
     </main>
   );
