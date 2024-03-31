@@ -16,6 +16,7 @@ export enum NameSpace {
   User = 'USER',
   Authorization = 'AUTHORIZATION',
   Sorting = 'SORTING',
+  Favorites = 'FAVORITES',
 }
 
 export const AppRoutes = {
@@ -30,6 +31,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Favorite = '/favorite',
 }
 
 export enum AuthorizationStatus {

@@ -1,8 +1,10 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getOffersLoadingStatus } from '../../store/selectors/offers-selectors';
-import { AppRoutes } from '../../const';
+import { fetchFavoriteOffers } from '../../store/api-actions';
+import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import MainScreen from '../../pages/main-screen/main-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
@@ -11,9 +13,18 @@ import Layout from '../layout/layout';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
+import { AppRoutes, AuthorizationStatus } from '../../const';
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
   const isLoading = useAppSelector(getOffersLoadingStatus);
+
+  useEffect(() => {
+    if (authStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoriteOffers());
+    }
+  }, [dispatch, authStatus]);
 
   if (isLoading) {
     return <Loader />;

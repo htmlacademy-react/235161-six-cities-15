@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/action';
 import { fetchOfferById, fetchNearbyOffers, fetchComments } from '../../store/api-actions';
-import { getCurrentOffer, getCurrentOfferLoadingStatus, getNearbyOffers, getComments } from '../../store/selectors/offers-selectors';
+import { getCurrentOffer, getCurrentOfferLoadingStatus, getCurrentOfferErrorStatus, getNearbyOffers, getComments } from '../../store/selectors/offers-selectors';
 import { getCurrentCity } from '../../store/selectors/city-selectors';
 import PlacesList from '../../components/places-list/places-list';
 import Gallery from '../../components/gallery/gallery';
@@ -19,13 +19,20 @@ function OfferScreen(): JSX.Element {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchOfferById(id));
-      dispatch(fetchNearbyOffers(id));
-      dispatch(fetchComments(id));
+      dispatch(fetchOfferById(id))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            dispatch(fetchNearbyOffers(id));
+            dispatch(fetchComments(id));
+          }
+        });
+      // dispatch(fetchNearbyOffers(id));
+      // dispatch(fetchComments(id));
     }
   }, [id, dispatch]);
 
   const isLoading = useAppSelector(getCurrentOfferLoadingStatus);
+  const isLoadError = useAppSelector(getCurrentOfferErrorStatus);
   const currentOffer = useAppSelector(getCurrentOffer);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const currentComments = useAppSelector(getComments);
@@ -43,6 +50,21 @@ function OfferScreen(): JSX.Element {
 
   if (!currentOffer) {
     return <NotFoundScreen />;
+  }
+
+  if (isLoadError) {
+    return (
+      <main className="page__main page__main--offer">
+        <h2
+          style={{
+            textAlign: 'center',
+            paddingBlockStart: '50px',
+          }}
+        >
+          Произошла ошибка при загрузке данных
+        </h2>
+      </main>
+    );
   }
 
   return (

@@ -1,13 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks';
-import { getOffers } from '../../store/selectors/offers-selectors';
+import { getFavoriteOffers } from '../../store/selectors/favorites-selectors';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector(getOffers);
-  //TODO: Это пока заглушка, чтобы отображался компонент FavoritesEmpty
-  const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
+  // const offers = useAppSelector(getOffers);
+  const bookmarkedOffers = useAppSelector(getFavoriteOffers);
 
   return (
     <main className={`page__main page__main--favorites ${bookmarkedOffers.length === 0 ? 'page__main--favorites-empty' : ''}`}>
@@ -21,7 +20,7 @@ function FavoritesScreen(): JSX.Element {
           {/* <h1 className="favorites__title">Saved listing</h1> */}
 
           {bookmarkedOffers.length !== 0
-            ? <><h1 className="favorites__title">Saved listing</h1> <FavoritesList offers={offers} /></>
+            ? <><h1 className="favorites__title">Saved listing</h1> <FavoritesList offers={bookmarkedOffers} /></>
             : <FavoritesEmpty />}
 
         </section>

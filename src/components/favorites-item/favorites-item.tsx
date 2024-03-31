@@ -13,7 +13,7 @@ type FavoritesItemProps = {
 
 function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolean {
   //TODO: Добавить проверку что в массиве есть офферы с флагом isFavorite:true, пока что костыльное решение
-  const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
+  // const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
   const dispatch = useAppDispatch();
 
@@ -26,7 +26,7 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
     }
   }
 
-  return (bookmarkedOffers.length > 0 &&
+  return (offers.length > 0 &&
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div
@@ -39,7 +39,7 @@ function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolea
         </div>
       </div>
       <PlacesList
-        offers={bookmarkedOffers}
+        offers={offers}
         className={'favorites__places'}
       />
     </li>

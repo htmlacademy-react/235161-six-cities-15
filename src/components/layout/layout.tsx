@@ -1,7 +1,8 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { getOffers } from '../../store/selectors/offers-selectors';
+// import { getOffers } from '../../store/selectors/offers-selectors';
+import { getFavoriteOffers } from '../../store/selectors/favorites-selectors';
 import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import { getUserData } from '../../store/selectors/user-selectors';
 import { AppRoutes } from '../../const';
@@ -33,9 +34,8 @@ function Layout(): JSX.Element {
   const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
 
-  //TODO: Не знаю как сделать лучше,чтобы правильно добавлять класс когда страница офферов пуста
-  const offers = useAppSelector(getOffers);
-  const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
+  const bookmarkedOffers = useAppSelector(getFavoriteOffers);
+  // const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
   const dispatch = useAppDispatch();
 
