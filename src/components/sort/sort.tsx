@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect} from 'react';
 import { useAppSelector } from '../../hooks';
+import { getCurrentSortingType } from '../../store/selectors/sorting-selectors';
 import { SORT } from '../../const';
 import SortItem from '../sort-item/sort-item';
 
 function Sort(): JSX.Element {
   const [isOptionsOpened, setIsOptionsOpened] = useState<boolean>(false);
-  const currentSortingType = useAppSelector((state) => state.SORTING);
+  const currentSortingType = useAppSelector(getCurrentSortingType);
   const sortingRef = useRef<HTMLFormElement>(null);
 
   function handleClickOutside(evt: MouseEvent) {

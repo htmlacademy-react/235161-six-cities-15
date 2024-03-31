@@ -1,5 +1,6 @@
 import { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getCurrentSortingType } from '../../store/selectors/sorting-selectors';
 import { changeSorting } from '../../store/action';
 import { SortType } from '../../const';
 
@@ -9,7 +10,7 @@ type SortItemProps = {
 
 function SortItem({sortType}: SortItemProps): JSX.Element {
   const {name} = sortType;
-  const activeSortType = useAppSelector((state) => state.SORTING);
+  const activeSortType = useAppSelector(getCurrentSortingType);
   const activeSortTypeClass = 'places__option--active';
   const dispatch = useAppDispatch();
 

@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { postReview } from '../../store/api-actions';
+import { getCurrentOfferId, getPostLoadingStatus, getPostErrorStatus } from '../../store/selectors/offers-selectors';
 import RatingInput from '../../components/rating-input/rating-input';
 import { RATINGS } from '../../const';
 
@@ -14,9 +15,9 @@ type ReviewFormData = {
 
 function ReviewsForm(): JSX.Element {
   const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.OFFERS.currentOfferData.data?.id);
-  const commentPostErrorStatus = useAppSelector((state) => state.OFFERS.currentOfferData.comments.commentPostErrorStatus);
-  const postLoadingStatus = useAppSelector((state) => state.OFFERS.currentOfferData.comments.postLoadingStatus);
+  const id = useAppSelector(getCurrentOfferId);
+  const commentPostErrorStatus = useAppSelector(getPostErrorStatus);
+  const postLoadingStatus = useAppSelector(getPostLoadingStatus);
 
   const [formData, setFormData] = useState<ReviewFormData>({
     review: '',

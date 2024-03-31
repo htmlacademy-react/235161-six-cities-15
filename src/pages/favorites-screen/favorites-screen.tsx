@@ -1,10 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/selectors/offers-selectors';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.OFFERS.cards.cardsData);
+  const offers = useAppSelector(getOffers);
   //TODO: Это пока заглушка, чтобы отображался компонент FavoritesEmpty
   const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
