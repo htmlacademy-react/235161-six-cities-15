@@ -78,7 +78,7 @@ function OfferScreen(): JSX.Element {
       <section className="offer">
 
         <div className="offer__gallery-container container">
-          <Gallery images={currentOffer.images}/>
+          <Gallery images={currentOffer.images.slice(0, 6)}/>
         </div>
 
         <Offer currentOffer={currentOffer} comments={currentComments} />

@@ -38,7 +38,7 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
         </div>
         <div className="offer__rating rating">
           <div className="offer__stars rating__stars">
-            <span style={{width: `${rating * 20}%`}}></span>
+            <span style={{width: `${Math.round(rating) * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
           <span className="offer__rating-value rating__value">{rating}</span>
@@ -65,7 +65,7 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
         <div className="offer__host">
           <h2 className="offer__host-title">Meet the host</h2>
           <div className="offer__host-user user">
-            <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+            <div className={`offer__avatar-wrapper user__avatar-wrapper ${host.isPro && 'offer__avatar-wrapper--pro'}`}>
               <img className="offer__avatar user__avatar" src={`${host.avatarUrl}`} width="74" height="74" alt="Host avatar"/>
             </div>
             <span className="offer__user-name">

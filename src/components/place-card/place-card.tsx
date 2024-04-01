@@ -74,7 +74,7 @@ const PlaceCard = memo(({offer, onHover, className = 'cities', imgPreviewWidth =
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${20 * rating}%`}}></span>
+            <span style={{width: `${20 * Math.round(rating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

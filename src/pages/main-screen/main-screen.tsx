@@ -67,7 +67,9 @@ function MainScreen(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersInCurrentCity.length} places to stay in {currentCity.name}</b>
+              <b className="places__found">
+                {offersInCurrentCity.length} place{offersInCurrentCity.length === 1 ? '' : 's'} to stay in {currentCity.name}
+              </b>
               <Sort/>
               <PlacesList
                 offers={offersInCurrentCity}
