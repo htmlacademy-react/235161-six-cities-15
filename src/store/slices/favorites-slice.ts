@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchFavoriteOffers } from '../api-actions';
+import { fetchFavoriteOffers, changeFavoriteStatus } from '../api-actions';
 import { FullOfferType, OfferType } from '../../types/offer';
 import { NameSpace } from '../../const';
 
@@ -32,6 +32,14 @@ export const favoritesSlice = createSlice({
       .addCase(fetchFavoriteOffers.rejected, (state) => {
         state.errorStatus = true;
         state.loadingStatus = false;
+      })
+
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        if (action.payload.isFavorite) {
+          state.data.push(action.payload);
+        } else {
+          state.data = state.data.filter((offer) => offer.id !== action.payload.id);
+        }
       });
   }
 });

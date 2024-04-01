@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOffers, fetchOfferById, fetchComments, fetchNearbyOffers, postReview } from '../api-actions';
+import { fetchOffers, fetchOfferById, fetchComments, fetchNearbyOffers, postReview, changeFavoriteStatus } from '../api-actions';
 import { NameSpace } from '../../const';
 import { OfferType, FullOfferType, ReviewItemType } from '../../types/offer';
 
@@ -103,6 +103,15 @@ export const offersSlice = createSlice({
 
       .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
         state.currentOfferData.nearbyOffers = action.payload;
+      })
+
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const index = state.cards.cardsData.findIndex((card) => card.id === action.payload.id);
+        state.cards.cardsData[index].isFavorite = action.payload.isFavorite;
+
+        if (state.currentOfferData.data && state.currentOfferData.data.id === action.payload.id) {
+          state.currentOfferData.data.isFavorite = action.payload.isFavorite;
+        }
       });
   }
 });

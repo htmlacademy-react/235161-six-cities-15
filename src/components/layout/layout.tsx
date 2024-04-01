@@ -70,13 +70,13 @@ function Layout(): JSX.Element {
                         >
                         </div>
                         <span className="header__user-name user__name">{`${userData?.email}`}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{bookmarkedOffers.length}</span>
                       </Link>
                     </li>
                   )}
-                  <li className="header__nav-item">
+                  <li className={`header__nav-item ${authStatus === AuthorizationStatus.NoAuth && 'user'}`}>
                     <Link
-                      className="header__nav-link"
+                      className={`header__nav-link ${authStatus === AuthorizationStatus.NoAuth && 'header__nav-link--profile'}`}
                       to={authStatus === AuthorizationStatus.Auth ? AppRoutes.Main : AppRoutes.Login}
                     >
                       {authStatus === AuthorizationStatus.Auth

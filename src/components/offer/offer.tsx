@@ -3,6 +3,7 @@ import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewsForm from '../reviews-form/reviews-form';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 import { FullOfferType, ReviewItemType } from '../../types/offer';
 import { AuthorizationStatus } from '../../const';
 
@@ -12,8 +13,8 @@ type OfferProps = {
 }
 
 function Offer({currentOffer, comments}: OfferProps): JSX.Element {
-  const {bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
-  const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
+  const {id, bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
+  // const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
   const authStatus = useAppSelector(getAuthStatus);
 
   return (
@@ -27,12 +28,13 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
           <h1 className="offer__name">
             {title}
           </h1>
-          <button className={`offer__bookmark-button button ${isFavorite ? activeBookmarkBtnClass : ''}`} type="button">
+          <BookmarkButton id={id} isFavorite={isFavorite} className='offer' />
+          {/* <button className={`offer__bookmark-button button ${isFavorite ? activeBookmarkBtnClass : ''}`} type="button">
             <svg className="offer__bookmark-icon" width="31" height="33">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
-          </button>
+          </button> */}
         </div>
         <div className="offer__rating rating">
           <div className="offer__stars rating__stars">

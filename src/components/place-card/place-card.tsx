@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { memo } from 'react';
 import { OfferType } from '../../types/offer';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -20,7 +21,7 @@ function PremiumMark(): JSX.Element {
 
 const PlaceCard = memo(({offer, onHover, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element => {
   const {id, title, type, price, rating, previewImage, isPremium, isFavorite} = offer;
-  const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
+  // const activeBookmarkBtnClass: string = 'place-card__bookmark-button--active';
 
   const handleMouseOver = () => {
     if (onHover) {
@@ -59,7 +60,8 @@ const PlaceCard = memo(({offer, onHover, className = 'cities', imgPreviewWidth =
             {' '}
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavorite && activeBookmarkBtnClass} button`} type="button">
+          <BookmarkButton id={id} isFavorite={isFavorite} />
+          {/* <button className={`place-card__bookmark-button ${isFavorite && activeBookmarkBtnClass} button`} type="button">
             <svg
               className="place-card__bookmark-icon"
               width="18"
@@ -68,7 +70,7 @@ const PlaceCard = memo(({offer, onHover, className = 'cities', imgPreviewWidth =
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
-          </button>
+          </button> */}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

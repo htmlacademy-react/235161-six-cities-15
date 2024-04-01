@@ -80,9 +80,26 @@ export const fetchFavoriteOffers = createAsyncThunk<OfferType[], undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'offers/fetchFavoriteOffers',
+  'favorites/fetchFavoriteOffers',
   async(_arg, {extra: api}) => {
     const {data} = await api.get<OfferType[]>(APIRoute.Favorite);
+    return data;
+  }
+);
+
+type FavoriteInfoType = {
+  id: string;
+  isFavorite: number;
+}
+
+export const changeFavoriteStatus = createAsyncThunk<FullOfferType, FavoriteInfoType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'favorites/changeFavoriteStatus',
+  async({id, isFavorite}, {extra: api}) => {
+    const {data} = await api.post<FullOfferType>(`${APIRoute.Favorite}/${id}/${isFavorite}`);
     return data;
   }
 );
