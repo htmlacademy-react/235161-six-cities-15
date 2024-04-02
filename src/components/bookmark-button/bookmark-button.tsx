@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteStatus } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/selectors/authorization-selectors';
+import { getChangeFavoritesLoadingStatus } from '../../store/selectors/favorites-selectors';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 
 type BookmarkButtonProps = {
@@ -13,6 +14,7 @@ type BookmarkButtonProps = {
 function BookmarkButton({id, isFavorite, className = 'place-card'}: BookmarkButtonProps): JSX.Element {
 
   const authStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getChangeFavoritesLoadingStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -34,6 +36,7 @@ function BookmarkButton({id, isFavorite, className = 'place-card'}: BookmarkButt
       className={`${className}__bookmark-button ${isFavorite && `${className}__bookmark-button--active`} button`}
       type="button"
       onClick={handleBookmarkBtnClick}
+      disabled={isLoading}
     >
       <svg
         className={`${className}__bookmark-icon`}

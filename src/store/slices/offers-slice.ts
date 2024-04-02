@@ -109,7 +109,9 @@ export const offersSlice = createSlice({
 
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const index = state.cards.cardsData.findIndex((card) => card.id === action.payload.id);
-        state.cards.cardsData[index].isFavorite = action.payload.isFavorite;
+        if (index !== -1) {
+          state.cards.cardsData[index].isFavorite = action.payload.isFavorite;
+        }
 
         if (state.currentOfferData.data && state.currentOfferData.data.id === action.payload.id) {
           state.currentOfferData.data.isFavorite = action.payload.isFavorite;

@@ -7,12 +7,16 @@ type FavoritesSliceType = {
   data: Array<OfferType | FullOfferType>;
   loadingStatus: boolean;
   errorStatus: boolean;
+  changeFavoritesLoadingStatus: boolean;
+  changeFavoritesErrorStatus: boolean;
 };
 
 const initialState: FavoritesSliceType = {
   data: [],
   loadingStatus: false,
   errorStatus: false,
+  changeFavoritesLoadingStatus: false,
+  changeFavoritesErrorStatus: false,
 };
 
 export const favoritesSlice = createSlice({
@@ -34,12 +38,21 @@ export const favoritesSlice = createSlice({
         state.loadingStatus = false;
       })
 
+      .addCase(changeFavoriteStatus.pending, (state) => {
+        state.changeFavoritesErrorStatus = false;
+        state.changeFavoritesLoadingStatus = true;
+      })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        state.changeFavoritesLoadingStatus = false;
         if (action.payload.isFavorite) {
           state.data.push(action.payload);
         } else {
           state.data = state.data.filter((offer) => offer.id !== action.payload.id);
         }
+      })
+      .addCase(changeFavoriteStatus.rejected, (state) => {
+        state.changeFavoritesErrorStatus = true;
+        state.changeFavoritesLoadingStatus = false;
       });
   }
 });
