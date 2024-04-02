@@ -1,7 +1,6 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-// import { getOffers } from '../../store/selectors/offers-selectors';
 import { getFavoriteOffers } from '../../store/selectors/favorites-selectors';
 import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import { getUserData } from '../../store/selectors/user-selectors';
@@ -33,16 +32,22 @@ function Layout(): JSX.Element {
   const userData = useAppSelector(getUserData);
   const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
-
   const bookmarkedOffers = useAppSelector(getFavoriteOffers);
-  // const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSignOutClick = () => {
-    if (authStatus === AuthorizationStatus.Auth) {
-      dispatch(logoutAction());
-    }
+    dispatch(logoutAction())
+      .then((response) => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          if (isFavoritePage) {
+            navigate(AppRoutes.Login);
+          } else {
+            navigate(AppRoutes.Main);
+          }
+        }
+      });
   };
 
   return (

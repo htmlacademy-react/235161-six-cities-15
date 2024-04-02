@@ -36,11 +36,13 @@ function App(): JSX.Element {
         <Routes>
           <Route path={AppRoutes.Main} element={<Layout />}>
             <Route index element={<MainScreen />}></Route>
-            <Route path={AppRoutes.Login} element={
-              <PrivateRoute isReverse>
-                <LoginScreen/>
-              </PrivateRoute>
-            }
+            <Route
+              path={AppRoutes.Login}
+              element={
+                <PrivateRoute isReverse>
+                  <LoginScreen/>
+                </PrivateRoute>
+              }
             />
             <Route path={AppRoutes.Offer} element={<OfferScreen />}></Route>
             <Route
