@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchOffers, fetchOfferById, fetchComments, fetchNearbyOffers, postReview, changeFavoriteStatus } from '../api-actions';
 import { NameSpace } from '../../const';
 import { OfferType, FullOfferType, ReviewItemType } from '../../types/offer';
+import { toast } from 'react-toastify';
 
 type OffersSliceType = {
   cards: {
@@ -89,16 +90,17 @@ export const offersSlice = createSlice({
       })
 
       .addCase(postReview.pending, (state) => {
+        state.currentOfferData.comments.commentPostErrorStatus = false;
         state.currentOfferData.comments.postLoadingStatus = true;
       })
       .addCase(postReview.fulfilled, (state, action) => {
         state.currentOfferData.comments.postLoadingStatus = false;
-        state.currentOfferData.comments.commentPostErrorStatus = false;
         state.currentOfferData.comments.commentsData.push(action.payload);
       })
       .addCase(postReview.rejected, (state) => {
-        state.currentOfferData.comments.postLoadingStatus = false;
         state.currentOfferData.comments.commentPostErrorStatus = true;
+        state.currentOfferData.comments.postLoadingStatus = false;
+        toast.warn('Произошла ошибка при отправке комментария');
       })
 
       .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
