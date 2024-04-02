@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/action';
 import { getAuthLoadingStatus } from '../../store/selectors/authorization-selectors';
-import { getCurrentCity } from '../../store/selectors/city-selectors';
 import { loginAction } from '../../store/api-actions';
-import { AppRoutes } from '../../const';
-
+import { AppRoutes, CITIES } from '../../const';
 
 function LoginScreen(): JSX.Element {
 
@@ -17,8 +16,9 @@ function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const currentCity = useAppSelector(getCurrentCity);
   const authLoadingStatus = useAppSelector(getAuthLoadingStatus);
+
+  const randomCityIndex = Math.floor(Math.random() * CITIES.length);
 
   const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const emailValue = evt.target.value;
@@ -45,6 +45,15 @@ function LoginScreen(): JSX.Element {
         });
     }
   };
+
+  function handleCityClick (evt: MouseEvent<HTMLElement>) {
+    const target = evt.target as HTMLElement;
+    const targetCity = target.textContent;
+
+    if (targetCity) {
+      dispatch(changeCity({cityName: targetCity}));
+    }
+  }
 
   return (
     <main className="page__main page__main--login">
@@ -99,8 +108,8 @@ function LoginScreen(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <Link className="locations__item-link" to={AppRoutes.Main}>
-              <span>{currentCity.name}</span>
+            <Link className="locations__item-link" to={AppRoutes.Main} onClick={handleCityClick}>
+              <span>{CITIES[randomCityIndex].name}</span>
             </Link>
           </div>
         </section>
