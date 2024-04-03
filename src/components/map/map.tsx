@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, memo} from 'react';
 import leaflet, { Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfferType } from '../../types/offer';
@@ -15,7 +15,7 @@ type MapProps = {
   classModificator?: string;
 }
 
-function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps): JSX.Element {
+const Map = memo(({classModificator = 'cities', offers, city, activeOffer}: MapProps): JSX.Element => {
   const currentLocation = city.location;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentLocation);
@@ -66,6 +66,8 @@ function Map({classModificator = 'cities', offers, city, activeOffer}: MapProps)
 
     </section>
   );
-}
+});
+
+Map.displayName = 'Map';
 
 export default Map;

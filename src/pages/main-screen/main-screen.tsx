@@ -1,6 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useCallback } from 'react';
 import { useAppSelector } from '../../hooks';
+import { getOffers, getOffersErrorStatus } from '../../store/selectors/offers-selectors';
+import { getCurrentCity } from '../../store/selectors/city-selectors';
+import { getCurrentSortingType } from '../../store/selectors/sorting-selectors';
 import { OfferType } from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
 import LocationsList from '../../components/locations-list/locations-list';
@@ -9,9 +12,10 @@ import Map from '../../components/map/map';
 import EmptyPlacesContainer from '../../components/empty-places-container/empty-places-container';
 
 function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers.cards.cardsData);
-  const currentCity = useAppSelector((state) => state.city);
-  const currentSortingType = useAppSelector((state) => state.sorting);
+  const offers = useAppSelector(getOffers);
+  const currentCity = useAppSelector(getCurrentCity);
+  const currentSortingType = useAppSelector(getCurrentSortingType);
+  const offersLoadErrorStatus = useAppSelector(getOffersErrorStatus);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
@@ -56,13 +60,16 @@ function MainScreen(): JSX.Element {
           <LocationsList/>
         </section>
       </div>
+      {offersLoadErrorStatus && <h2>Произошла ошибка при загрузке данных</h2>}
       <div className="cities">
-        {offersInCurrentCity.length === 0 && <EmptyPlacesContainer />}
-        {offersInCurrentCity.length !== 0 &&
+
+        {offersInCurrentCity.length !== 0 && !offersLoadErrorStatus ?
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersInCurrentCity.length} places to stay in {currentCity.name}</b>
+              <b className="places__found">
+                {offersInCurrentCity.length} place{offersInCurrentCity.length === 1 ? '' : 's'} to stay in {currentCity.name}
+              </b>
               <Sort/>
               <PlacesList
                 offers={offersInCurrentCity}
@@ -73,7 +80,7 @@ function MainScreen(): JSX.Element {
             <div className="cities__right-section">
               <Map offers={offersInCurrentCity} activeOffer={activeOffer} city={currentCity}/>
             </div>
-          </div>}
+          </div> : <EmptyPlacesContainer />}
       </div>
     </main>
   );

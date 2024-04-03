@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { OfferType } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
@@ -7,7 +8,7 @@ type PlacesListProps = {
   className?: string;
 }
 
-function PlacesList({offers, className, onHover}: PlacesListProps): JSX.Element {
+const PlacesList = memo(({offers, className, onHover}: PlacesListProps): JSX.Element => {
   let listClass = ' places__list';
   let cardClass = '';
 
@@ -34,6 +35,8 @@ function PlacesList({offers, className, onHover}: PlacesListProps): JSX.Element 
       ))}
     </div>
   );
-}
+});
+
+PlacesList.displayName = 'PlacesList';
 
 export default PlacesList;

@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/action';
+import { getAuthLoadingStatus } from '../../store/selectors/authorization-selectors';
 import { loginAction } from '../../store/api-actions';
-import { AppRoutes } from '../../const';
-
+import { AppRoutes, CITIES } from '../../const';
 
 function LoginScreen(): JSX.Element {
 
@@ -15,8 +16,9 @@ function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const currentCity = useAppSelector((state) => state.city);
-  const authErrorStatus = useAppSelector((state) => state.authorization.authErrorStatus);
+  const authLoadingStatus = useAppSelector(getAuthLoadingStatus);
+
+  const randomCityIndex = Math.floor(Math.random() * CITIES.length);
 
   const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const emailValue = evt.target.value;
@@ -35,13 +37,23 @@ function LoginScreen(): JSX.Element {
       dispatch(loginAction({
         email: email,
         password: password,
-      }));
-
-      if (!authErrorStatus) {
-        navigate(AppRoutes.Main);
-      }
+      }))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            navigate(AppRoutes.Main);
+          }
+        });
     }
   };
+
+  function handleCityClick (evt: MouseEvent<HTMLElement>) {
+    const target = evt.target as HTMLElement;
+    const targetCity = target.textContent;
+
+    if (targetCity) {
+      dispatch(changeCity({cityName: targetCity}));
+    }
+  }
 
   return (
     <main className="page__main page__main--login">
@@ -64,7 +76,9 @@ function LoginScreen(): JSX.Element {
               <input
                 onChange={handleEmailInputChange}
                 className="login__input form__input"
-                type="email" name="email"
+                type="email"
+                name="email"
+                value={email}
                 placeholder="Email"
                 required
               />
@@ -76,8 +90,9 @@ function LoginScreen(): JSX.Element {
                 className="login__input form__input"
                 type="password"
                 name="password"
+                value={password}
                 placeholder="Password"
-                pattern="[A-Za-z0-9]{2,}"
+                pattern="^.*(?=.*[a-zA-Z])(?=.*\d).*$"
                 title="Пароль должен состоять только из латинских букв и цифр, и быть не менее 2 символов в длину"
                 required
               />
@@ -85,6 +100,7 @@ function LoginScreen(): JSX.Element {
             <button
               className="login__submit form__submit button"
               type="submit"
+              disabled={authLoadingStatus}
             >
               Sign in
             </button>
@@ -92,8 +108,8 @@ function LoginScreen(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <Link className="locations__item-link" to={AppRoutes.Main}>
-              <span>{currentCity.name}</span>
+            <Link className="locations__item-link" to={AppRoutes.Main} onClick={handleCityClick}>
+              <span>{CITIES[randomCityIndex].name}</span>
             </Link>
           </div>
         </section>

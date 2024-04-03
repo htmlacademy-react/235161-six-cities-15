@@ -10,6 +10,15 @@ export const Setting = {
   defaultSorting: 'Popular',
 } as const;
 
+export enum NameSpace {
+  City = 'CITY',
+  Offers = 'OFFERS',
+  User = 'USER',
+  Authorization = 'AUTHORIZATION',
+  Sorting = 'SORTING',
+  Favorites = 'FAVORITES',
+}
+
 export const AppRoutes = {
   Main: '/',
   Login: '/login',
@@ -22,6 +31,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Favorite = '/favorite',
 }
 
 export enum AuthorizationStatus {

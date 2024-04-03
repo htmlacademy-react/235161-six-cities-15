@@ -11,7 +11,7 @@ function NotFoundScreen(): JSX.Element {
           6 Cities. Page not found
         </title>
       </Helmet>
-      <h2 className="error-screen--title">Page not found</h2>
+      <h2 className="error-screen--title">404 Page not found</h2>
       <img className="error-screen--image" src='img/peppo-crying.jpg' width='400' height='400' alt='Картинка сообщающая об ошибке' />
       <span className="error-screen--back">
         <Link to={AppRoutes.Main}>

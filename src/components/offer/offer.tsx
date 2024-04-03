@@ -1,7 +1,9 @@
 import { useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewsForm from '../reviews-form/reviews-form';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 import { FullOfferType, ReviewItemType } from '../../types/offer';
 import { AuthorizationStatus } from '../../const';
 
@@ -11,9 +13,8 @@ type OfferProps = {
 }
 
 function Offer({currentOffer, comments}: OfferProps): JSX.Element {
-  const {bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
-  const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
-  const authStatus = useAppSelector((state) => state.authorization.authStatus);
+  const {id, bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <div className="offer__container container">
@@ -26,16 +27,11 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
           <h1 className="offer__name">
             {title}
           </h1>
-          <button className={`offer__bookmark-button button ${isFavorite ? activeBookmarkBtnClass : ''}`} type="button">
-            <svg className="offer__bookmark-icon" width="31" height="33">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton id={id} isFavorite={isFavorite} className='offer' />
         </div>
         <div className="offer__rating rating">
           <div className="offer__stars rating__stars">
-            <span style={{width: `${rating * 20}%`}}></span>
+            <span style={{width: `${Math.round(rating) * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
           <span className="offer__rating-value rating__value">{rating}</span>
@@ -62,7 +58,7 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
         <div className="offer__host">
           <h2 className="offer__host-title">Meet the host</h2>
           <div className="offer__host-user user">
-            <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+            <div className={`offer__avatar-wrapper user__avatar-wrapper ${host.isPro && 'offer__avatar-wrapper--pro'}`}>
               <img className="offer__avatar user__avatar" src={`${host.avatarUrl}`} width="74" height="74" alt="Host avatar"/>
             </div>
             <span className="offer__user-name">
@@ -81,7 +77,7 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
         </div>
         <section className="offer__reviews reviews">
           <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-          {comments.length !== 0 && <ReviewsList reviews={comments.slice(0, 5)} />}
+          {comments.length !== 0 && <ReviewsList reviews={comments.slice(0, 10)} />}
           {authStatus === AuthorizationStatus.Auth && <ReviewsForm />}
         </section>
       </div>

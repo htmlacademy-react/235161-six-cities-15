@@ -1,6 +1,9 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { getFavoriteOffers } from '../../store/selectors/favorites-selectors';
+import { getAuthStatus } from '../../store/selectors/authorization-selectors';
+import { getUserData } from '../../store/selectors/user-selectors';
 import { AppRoutes } from '../../const';
 import { AuthorizationStatus } from '../../const';
 
@@ -25,21 +28,30 @@ function getLayoutState(pathname: string) {
 
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
-  const authStatus = useAppSelector((state) => state.authorization.authStatus);
-  const userData = useAppSelector((state) => state.user.userData);
+  const authStatus = useAppSelector(getAuthStatus);
+  const userData = useAppSelector(getUserData);
   const {mainClassName, linkClassName, shouldRenderUser} = getLayoutState(pathname);
   const isFavoritePage = pathname === AppRoutes.Favorites;
+  const bookmarkedOffers = useAppSelector(getFavoriteOffers);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSignOutClick = () => {
-    if (authStatus === AuthorizationStatus.Auth) {
-      dispatch(logoutAction());
-    }
+    dispatch(logoutAction())
+      .then((response) => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          if (isFavoritePage) {
+            navigate(AppRoutes.Login);
+          } else {
+            navigate(AppRoutes.Main);
+          }
+        }
+      });
   };
 
   return (
-    <div className={`page${mainClassName}`}>
+    <div className={`page${mainClassName} ${isFavoritePage && bookmarkedOffers.length === 0 ? 'page--favorites-empty' : ''}`}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -63,13 +75,13 @@ function Layout(): JSX.Element {
                         >
                         </div>
                         <span className="header__user-name user__name">{`${userData?.email}`}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{bookmarkedOffers.length}</span>
                       </Link>
                     </li>
                   )}
-                  <li className="header__nav-item">
+                  <li className={`header__nav-item ${authStatus === AuthorizationStatus.NoAuth && 'user'}`}>
                     <Link
-                      className="header__nav-link"
+                      className={`header__nav-link ${authStatus === AuthorizationStatus.NoAuth && 'header__nav-link--profile'}`}
                       to={authStatus === AuthorizationStatus.Auth ? AppRoutes.Main : AppRoutes.Login}
                     >
                       {authStatus === AuthorizationStatus.Auth

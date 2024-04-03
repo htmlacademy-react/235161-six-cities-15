@@ -1,29 +1,30 @@
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { useAppSelector } from '../../hooks';
+import { getCurrentSortingType } from '../../store/selectors/sorting-selectors';
 import { SORT } from '../../const';
 import SortItem from '../sort-item/sort-item';
 
-function Sort(): JSX.Element {
+const Sort = memo((): JSX.Element => {
   const [isOptionsOpened, setIsOptionsOpened] = useState<boolean>(false);
-  const currentSortingType = useAppSelector((state) => state.sorting);
+  const currentSortingType = useAppSelector(getCurrentSortingType);
   const sortingRef = useRef<HTMLFormElement>(null);
 
-  function handleClickOutside(evt: MouseEvent) {
+  const handleClickOutside = useCallback((evt: MouseEvent) => {
     if (sortingRef.current && !sortingRef.current.contains(evt.target as Node)) {
       setIsOptionsOpened(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [handleClickOutside]);
 
-  function handleSortOptionsClick() {
+  const handleSortOptionsClick = useCallback(() => {
     setIsOptionsOpened(!isOptionsOpened);
-  }
+  }, [isOptionsOpened]);
 
   return (
     <form
@@ -50,6 +51,8 @@ function Sort(): JSX.Element {
       </ul>
     </form>
   );
-}
+});
+
+Sort.displayName = 'Sort';
 
 export default Sort;

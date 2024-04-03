@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { postReview } from '../../store/api-actions';
+import { getCurrentOfferId, getPostLoadingStatus } from '../../store/selectors/offers-selectors';
 import RatingInput from '../../components/rating-input/rating-input';
 import { RATINGS } from '../../const';
 
@@ -14,22 +15,22 @@ type ReviewFormData = {
 
 function ReviewsForm(): JSX.Element {
   const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.offers.currentOfferData.data?.id);
-  const commentPostErrorStatus = useAppSelector((state) => state.offers.currentOfferData.comments.commentPostErrorStatus);
+  const id = useAppSelector(getCurrentOfferId);
+  const postLoadingStatus = useAppSelector(getPostLoadingStatus);
 
   const [formData, setFormData] = useState<ReviewFormData>({
     review: '',
     rating: 0,
   });
 
-  const isValid: boolean =
-    formData.review.length >= MIN_COMMENT_LENGTH &&
-    formData.review.length <= MAX_COMMENT_LENGTH &&
+  const isValid =
+    formData.review.length > MIN_COMMENT_LENGTH &&
+    formData.review.length < MAX_COMMENT_LENGTH &&
     formData.rating !== 0;
 
   const handleCommentFieldChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    const {name, value} = evt.target;
-    setFormData({...formData, [name]: value});
+    const {value} = evt.target;
+    setFormData({...formData, review: value});
   };
 
   const handleRatingChange = (newRating: number) => {
@@ -40,14 +41,15 @@ function ReviewsForm(): JSX.Element {
     evt.preventDefault();
 
     if (id) {
-      dispatch(postReview({id: id, reviewData: formData}));
-    }
-
-    if (!commentPostErrorStatus) {
-      setFormData({
-        review: '',
-        rating: 0,
-      });
+      dispatch(postReview({id: id, reviewData: formData}))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            setFormData({
+              review: '',
+              rating: 0,
+            });
+          }
+        });
     }
   };
 
@@ -60,23 +62,31 @@ function ReviewsForm(): JSX.Element {
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((ratingItem) => <RatingInput key={ratingItem.value} onRatingChange={handleRatingChange} rating={ratingItem} checkedValue={String(formData.rating)}/>)}
+        {RATINGS.map((ratingItem) => <RatingInput key={ratingItem.value} onRatingChange={handleRatingChange} rating={ratingItem} isDisabled={postLoadingStatus} checkedValue={String(formData.rating)}/>)}
       </div>
       <textarea
         onChange={handleCommentFieldChange}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
+        value={formData.review}
         placeholder="Tell how was your stay, what you like and what can be improved"
         minLength={MIN_COMMENT_LENGTH}
         maxLength={MAX_COMMENT_LENGTH}
+        disabled={postLoadingStatus}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!isValid}>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={!isValid || postLoadingStatus}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );
