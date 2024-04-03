@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/selectors/authorization-selectors';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
@@ -12,9 +13,16 @@ type OfferProps = {
   comments: ReviewItemType[];
 }
 
-function Offer({currentOffer, comments}: OfferProps): JSX.Element {
+function sortByDate(a: ReviewItemType, b: ReviewItemType): number {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return dateB.getTime() - dateA.getTime();
+}
+
+const Offer = memo(({currentOffer, comments}: OfferProps): JSX.Element => {
   const {id, bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
   const authStatus = useAppSelector(getAuthStatus);
+  const sortedReviews = comments.slice().sort(sortByDate).slice(0, 10);
 
   return (
     <div className="offer__container container">
@@ -77,12 +85,14 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
         </div>
         <section className="offer__reviews reviews">
           <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-          {comments.length !== 0 && <ReviewsList reviews={comments.slice(0, 10)} />}
+          {comments.length !== 0 && <ReviewsList reviews={sortedReviews} />}
           {authStatus === AuthorizationStatus.Auth && <ReviewsForm />}
         </section>
       </div>
     </div>
   );
-}
+});
+
+Offer.displayName = 'Offer';
 
 export default Offer;

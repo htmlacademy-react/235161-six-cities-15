@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { ReviewItemType } from '../../types/offer';
 
 type ReviewsItemProps = {
   review: ReviewItemType;
 }
 
-function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
+const ReviewsItem = memo(({review}: ReviewsItemProps): JSX.Element => {
   const {user, comment, date, rating} = review;
   const dateAsObj = new Date(date);
   const month = dateAsObj.toLocaleString('en', { month: 'long' });
@@ -34,6 +35,8 @@ function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
       </div>
     </li>
   );
-}
+});
+
+ReviewsItem.displayName = 'ReviewsItem';
 
 export default ReviewsItem;

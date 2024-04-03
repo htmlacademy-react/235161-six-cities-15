@@ -1,9 +1,11 @@
+import { memo } from 'react';
+
 type GalleryProps = {
-  images: string[];
+  images: string[] | undefined;
 }
 
-function GalleryImage({image}: {image: string}): JSX.Element {
-  return (
+const GalleryImage = memo(({image}: {image: string}): JSX.Element =>
+  (
     <div
       className="offer__image-wrapper"
     >
@@ -13,17 +15,21 @@ function GalleryImage({image}: {image: string}): JSX.Element {
         alt="Photo studio"
       />
     </div>
-  );
-}
+  )
+);
 
-function Gallery({images}: GalleryProps): JSX.Element {
-  const galleryImages = images.map((image) => <GalleryImage key={image} image={image}/>);
+GalleryImage.displayName = 'GalleryImage';
+
+const Gallery = memo(({images}: GalleryProps): JSX.Element => {
+  const galleryImages = images?.map((image) => <GalleryImage key={image} image={image}/>);
 
   return (
     <div className="offer__gallery">
       {galleryImages}
     </div>
   );
-}
+});
+
+Gallery.displayName = 'Gallery';
 
 export default Gallery;
