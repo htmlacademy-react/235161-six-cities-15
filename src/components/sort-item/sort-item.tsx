@@ -37,31 +37,4 @@ const SortItem = memo(({sortType}: SortItemProps): JSX.Element => {
 
 SortItem.displayName = 'SortItem';
 
-// function SortItem({sortType}: SortItemProps): JSX.Element {
-//   const {name} = sortType;
-//   const activeSortType = useAppSelector(getCurrentSortingType);
-//   const activeSortTypeClass = 'places__option--active';
-//   const dispatch = useAppDispatch();
-
-//   function handleSortTypeClick(evt: MouseEvent<HTMLElement>) {
-//     const target = evt.target as HTMLElement;
-//     const sortingType = target.textContent;
-
-//     if (sortingType) {
-//       dispatch(changeSorting({sorting: sortingType}));
-//     }
-//   }
-
-//   return (
-//     <li
-//       key={name}
-//       className={`places__option ${activeSortType === name ? activeSortTypeClass : ''}`}
-//       onClick={handleSortTypeClick}
-//       tabIndex={0}
-//     >
-//       {name}
-//     </li>
-//   );
-// }
-
 export default SortItem;

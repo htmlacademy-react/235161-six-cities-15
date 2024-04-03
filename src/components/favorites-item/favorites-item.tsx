@@ -13,7 +13,6 @@ type FavoritesItemProps = {
 
 function FavoritesItem({city, offers}: FavoritesItemProps): JSX.Element | boolean {
   //TODO: Добавить проверку что в массиве есть офферы с флагом isFavorite:true, пока что костыльное решение
-  // const bookmarkedOffers = offers.filter((offer) => offer.isFavorite);
 
   const dispatch = useAppDispatch();
 

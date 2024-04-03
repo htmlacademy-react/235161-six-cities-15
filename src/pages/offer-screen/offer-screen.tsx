@@ -26,8 +26,6 @@ function OfferScreen(): JSX.Element {
             dispatch(fetchComments(id));
           }
         });
-      // dispatch(fetchNearbyOffers(id));
-      // dispatch(fetchComments(id));
     }
   }, [id, dispatch]);
 

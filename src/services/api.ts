@@ -24,7 +24,7 @@ export const createAPI = (): AxiosInstance => {
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
-  //TODO: Узнать правильно ли использовать тут InternalAxiosRequestConfig
+
   api.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
       const token = getToken();

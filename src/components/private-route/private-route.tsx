@@ -26,13 +26,7 @@ function PrivateRoute({children, isReverse}: PrivateRouteProps): JSX.Element {
   }
 
   return children;
-  // const authStatus = useAppSelector(getAuthStatus);
 
-  // return (
-  //   authStatus === (isReverse ? AuthorizationStatus.NoAuth : AuthorizationStatus.Auth)
-  //     ? children
-  //     : <Navigate to={isReverse ? AppRoutes.Main : AppRoutes.Login} />
-  // );
 }
 
 export default PrivateRoute;

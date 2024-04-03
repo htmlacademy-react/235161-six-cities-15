@@ -15,7 +15,7 @@ function MainScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getCurrentCity);
   const currentSortingType = useAppSelector(getCurrentSortingType);
-  const offersLoardErrorStatus = useAppSelector(getOffersErrorStatus);
+  const offersLoadErrorStatus = useAppSelector(getOffersErrorStatus);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
   const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
@@ -60,10 +60,10 @@ function MainScreen(): JSX.Element {
           <LocationsList/>
         </section>
       </div>
-      {offersLoardErrorStatus && <h2>Произошла ошибка при загрузке данных</h2>}
+      {offersLoadErrorStatus && <h2>Произошла ошибка при загрузке данных</h2>}
       <div className="cities">
-        {/* {offersInCurrentCity.length === 0 && <EmptyPlacesContainer />} */}
-        {offersInCurrentCity.length !== 0 && !offersLoardErrorStatus ?
+
+        {offersInCurrentCity.length !== 0 && !offersLoadErrorStatus ?
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>

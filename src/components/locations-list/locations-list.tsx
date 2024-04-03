@@ -14,15 +14,4 @@ const LocationsList = memo((): JSX.Element =>
 
 LocationsList.displayName = 'LocationsList';
 
-// function LocationsList(): JSX.Element {
-
-//   return (
-//     <ul className="locations__list tabs__list">
-//       {CITIES.map((city) =>
-//         <LocationsListItem key={city.name} city={city}/>
-//       )}
-//     </ul>
-//   );
-// }
-
 export default LocationsList;

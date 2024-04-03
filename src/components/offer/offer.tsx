@@ -14,7 +14,6 @@ type OfferProps = {
 
 function Offer({currentOffer, comments}: OfferProps): JSX.Element {
   const {id, bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
-  // const activeBookmarkBtnClass: string = 'offer__bookmark-button--active';
   const authStatus = useAppSelector(getAuthStatus);
 
   return (
@@ -29,12 +28,6 @@ function Offer({currentOffer, comments}: OfferProps): JSX.Element {
             {title}
           </h1>
           <BookmarkButton id={id} isFavorite={isFavorite} className='offer' />
-          {/* <button className={`offer__bookmark-button button ${isFavorite ? activeBookmarkBtnClass : ''}`} type="button">
-            <svg className="offer__bookmark-icon" width="31" height="33">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button> */}
         </div>
         <div className="offer__rating rating">
           <div className="offer__stars rating__stars">

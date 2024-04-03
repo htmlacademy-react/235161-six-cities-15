@@ -5,7 +5,7 @@ import FavoritesList from '../../components/favorites-list/favorites-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 function FavoritesScreen(): JSX.Element {
-  // const offers = useAppSelector(getOffers);
+
   const bookmarkedOffers = useAppSelector(getFavoriteOffers);
 
   return (
@@ -17,7 +17,6 @@ function FavoritesScreen(): JSX.Element {
       </Helmet>
       <div className="page__favorites-container container">
         <section className={`favorites ${bookmarkedOffers.length === 0 ? 'favorites--empty' : ''}`}>
-          {/* <h1 className="favorites__title">Saved listing</h1> */}
 
           {bookmarkedOffers.length !== 0
             ? <><h1 className="favorites__title">Saved listing</h1> <FavoritesList offers={bookmarkedOffers} /></>
