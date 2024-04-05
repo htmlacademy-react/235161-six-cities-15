@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteStatus } from '../../store/api-actions';
@@ -11,14 +12,14 @@ type BookmarkButtonProps = {
   className?: string;
 }
 
-function BookmarkButton({id, isFavorite, className = 'place-card'}: BookmarkButtonProps): JSX.Element {
+const BookmarkButton = memo(({id, isFavorite, className = 'place-card'}: BookmarkButtonProps): JSX.Element => {
 
   const authStatus = useAppSelector(getAuthStatus);
   const isLoading = useAppSelector(getChangeFavoritesLoadingStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  function handleBookmarkBtnClick() {
+  function handleBookmarkButtonClick() {
 
     if (authStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoutes.Login);
@@ -35,7 +36,7 @@ function BookmarkButton({id, isFavorite, className = 'place-card'}: BookmarkButt
     <button
       className={`${className}__bookmark-button ${isFavorite && `${className}__bookmark-button--active`} button`}
       type="button"
-      onClick={handleBookmarkBtnClick}
+      onClick={handleBookmarkButtonClick}
       disabled={isLoading}
     >
       <svg
@@ -48,6 +49,8 @@ function BookmarkButton({id, isFavorite, className = 'place-card'}: BookmarkButt
       <span className="visually-hidden">To bookmarks</span>
     </button>
   );
-}
+});
+
+BookmarkButton.displayName = 'BookmarkButton';
 
 export default BookmarkButton;

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/action';
 import { fetchOfferById, fetchNearbyOffers, fetchComments } from '../../store/api-actions';
@@ -35,6 +35,9 @@ function OfferScreen(): JSX.Element {
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const currentComments = useAppSelector(getComments);
   const currentCity = useAppSelector(getCurrentCity);
+
+  const galleryImages = useMemo(() => currentOffer?.images.slice(0, 6), [currentOffer?.images]);
+  const mapOffers = useMemo(() => nearbyOffers && currentOffer ? [...nearbyOffers.slice(0, 3), currentOffer] : [], [nearbyOffers, currentOffer]);
 
   useEffect(() => {
     if (currentOffer) {
@@ -76,17 +79,17 @@ function OfferScreen(): JSX.Element {
       <section className="offer">
 
         <div className="offer__gallery-container container">
-          <Gallery images={currentOffer.images.slice(0, 6)}/>
+          <Gallery images={galleryImages}/>
         </div>
 
         <Offer currentOffer={currentOffer} comments={currentComments} />
-
-        <Map
-          offers={[...nearbyOffers.slice(0, 3), currentOffer]}
-          activeOffer={currentOffer}
-          classModificator = 'offer'
-          city={currentCity}
-        />
+        {mapOffers.length > 0 &&
+          <Map
+            offers={mapOffers}
+            activeOffer={currentOffer}
+            classModificator = 'offer'
+            city={currentCity}
+          />}
       </section>
 
       <div className="container">
