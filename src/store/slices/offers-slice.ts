@@ -116,6 +116,9 @@ export const offersSlice = createSlice({
         if (state.currentOfferData.data && state.currentOfferData.data.id === action.payload.id) {
           state.currentOfferData.data.isFavorite = action.payload.isFavorite;
         }
+      })
+      .addCase(changeFavoriteStatus.rejected, () => {
+        toast.warn('Ошибка добавления в избранное');
       });
   }
 });
