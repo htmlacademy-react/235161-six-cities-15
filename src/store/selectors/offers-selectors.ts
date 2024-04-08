@@ -15,4 +15,3 @@ export const getNearbyOffers = (state:State): OfferType[] => state[NameSpace.Off
 
 export const getComments = (state:State): ReviewItemType[] => state[NameSpace.Offers].currentOfferData.comments.commentsData;
 export const getPostLoadingStatus = (state:State): boolean => state[NameSpace.Offers].currentOfferData.comments.postLoadingStatus;
-export const getPostErrorStatus = (state:State): boolean => state[NameSpace.Offers].currentOfferData.comments.commentPostErrorStatus;
