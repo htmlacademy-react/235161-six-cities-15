@@ -1,6 +1,6 @@
+import { useState, useCallback, FormEvent, ChangeEvent, MouseEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useState, FormEvent, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { citySlice } from '../../store/slices/city-slice';
@@ -9,29 +9,32 @@ import { loginAction } from '../../store/api-actions';
 import { AppRoutes, CITIES } from '../../const';
 
 function LoginScreen(): JSX.Element {
-
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [randomCityIndex, setRandomCityIndex] = useState<number>(0);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {changeCity} = citySlice.actions;
+  const { changeCity } = citySlice.actions;
 
   const authLoadingStatus = useAppSelector(getAuthLoadingStatus);
 
-  const randomCityIndex = Math.floor(Math.random() * CITIES.length);
+  useEffect(() => {
+    const index = Math.floor(Math.random() * CITIES.length);
+    setRandomCityIndex(index);
+  }, []);
 
-  const handleEmailInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailInputChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const emailValue = evt.target.value;
     setEmail(emailValue);
-  };
+  }, []);
 
-  const handlePasswordInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordInputChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     const passwordValue = evt.target.value;
     setPassword(passwordValue);
-  };
+  }, []);
 
-  const handleSubmit = (evt: FormEvent<HTMLElement>) => {
+  const handleSubmit = useCallback((evt: FormEvent<HTMLElement>) => {
     evt.preventDefault();
 
     if (email !== '' && password !== '') {
@@ -45,16 +48,16 @@ function LoginScreen(): JSX.Element {
           }
         });
     }
-  };
+  }, [email, password, dispatch, navigate]);
 
-  function handleCityClick (evt: MouseEvent<HTMLElement>) {
+  const handleCityClick = useCallback((evt: MouseEvent<HTMLElement>) => {
     const target = evt.target as HTMLElement;
     const targetCity = target.textContent;
 
     if (targetCity) {
-      dispatch(changeCity({cityName: targetCity}));
+      dispatch(changeCity({ cityName: targetCity }));
     }
-  }
+  }, [dispatch, changeCity]);
 
   return (
     <main className="page__main page__main--login">
