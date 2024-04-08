@@ -96,7 +96,7 @@ export type SortType = {
   isActive: boolean;
 };
 
-export const SORT: SortType[] = [
+export const SORTING_TYPES: SortType[] = [
   {
     name: 'Popular',
     isActive: true
