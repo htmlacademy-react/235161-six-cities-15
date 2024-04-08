@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getCurrentSortingType } from '../../store/selectors/sorting-selectors';
-import { SORT } from '../../const';
+import { SORTING_TYPES } from '../../const';
 import SortItem from '../sort-item/sort-item';
 
 const Sort = memo((): JSX.Element => {
@@ -47,7 +47,7 @@ const Sort = memo((): JSX.Element => {
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isOptionsOpened ? 'places__options--opened' : ''}`}>
-        {SORT.map((sortType) => <SortItem key={sortType.name} sortType={sortType}/>)}
+        {SORTING_TYPES.map((sortType) => <SortItem key={sortType.name} sortType={sortType}/>)}
       </ul>
     </form>
   );

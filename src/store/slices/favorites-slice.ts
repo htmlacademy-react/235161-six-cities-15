@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import { fetchFavoriteOffers, changeFavoriteStatus } from '../api-actions';
 import { FullOfferType, OfferType } from '../../types/offer';
 import { NameSpace } from '../../const';
@@ -53,6 +54,7 @@ export const favoritesSlice = createSlice({
       .addCase(changeFavoriteStatus.rejected, (state) => {
         state.changeFavoritesErrorStatus = true;
         state.changeFavoritesLoadingStatus = false;
+        toast.warn('Ошибка добавления в избранное');
       });
   }
 });
