@@ -12,6 +12,7 @@ import Offer from '../../components/offer/offer';
 import Map from '../../components/map/map';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Loader from '../../components/loader/loader';
+import './offer-screen.css';
 
 function OfferScreen(): JSX.Element {
   const {id} = useParams();
@@ -57,12 +58,7 @@ function OfferScreen(): JSX.Element {
   if (isLoadError) {
     return (
       <main className="page__main page__main--offer">
-        <h2
-          style={{
-            textAlign: 'center',
-            paddingBlockStart: '50px',
-          }}
-        >
+        <h2>
           Произошла ошибка при загрузке данных
         </h2>
       </main>
