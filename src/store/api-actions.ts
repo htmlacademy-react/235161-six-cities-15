@@ -1,5 +1,6 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {AppDispatch, State} from '../types/state';
 import {saveToken, dropToken} from '../services/token';
 import { FullOfferType, OfferType, ReviewItemType } from '../types/offer';
@@ -58,8 +59,13 @@ export const postReview = createAsyncThunk<ReviewItemType, postReviewType, {
 }>(
   'offers/postReview',
   async ({id, reviewData}, {extra: api}) => {
-    const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
-    return data;
+    try {
+      const {data} = await api.post<ReviewItemType>(`${APIRoute.Comments}/${id}`, {comment: reviewData.review, rating: reviewData.rating});
+      return data;
+    } catch (error) {
+      toast.warn('Произошла ошибка при отправке комментария');
+      throw error;
+    }
   }
 );
 
@@ -99,8 +105,13 @@ export const changeFavoriteStatus = createAsyncThunk<FullOfferType, FavoriteInfo
 }>(
   'favorites/changeFavoriteStatus',
   async({id, isFavorite}, {extra: api}) => {
-    const {data} = await api.post<FullOfferType>(`${APIRoute.Favorite}/${id}/${isFavorite}`);
-    return data;
+    try {
+      const {data} = await api.post<FullOfferType>(`${APIRoute.Favorite}/${id}/${isFavorite}`);
+      return data;
+    } catch (error) {
+      toast.warn('Ошибка добавления в избранное');
+      throw error;
+    }
   }
 );
 
