@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchOffers, fetchOfferById, fetchComments, fetchNearbyOffers, postReview, changeFavoriteStatus } from '../api-actions';
 import { NameSpace } from '../../const';
 import { OfferType, FullOfferType, ReviewItemType } from '../../types/offer';
-import { toast } from 'react-toastify';
 
 type OffersSliceType = {
   cards: {
@@ -100,7 +99,6 @@ export const offersSlice = createSlice({
       .addCase(postReview.rejected, (state) => {
         state.currentOfferData.comments.commentPostErrorStatus = true;
         state.currentOfferData.comments.postLoadingStatus = false;
-        toast.warn('Произошла ошибка при отправке комментария');
       })
 
       .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
@@ -116,9 +114,6 @@ export const offersSlice = createSlice({
         if (state.currentOfferData.data && state.currentOfferData.data.id === action.payload.id) {
           state.currentOfferData.data.isFavorite = action.payload.isFavorite;
         }
-      })
-      .addCase(changeFavoriteStatus.rejected, () => {
-        toast.warn('Ошибка добавления в избранное');
       });
   }
 });
