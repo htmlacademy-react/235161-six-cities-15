@@ -2,7 +2,7 @@ import {useRef, useEffect, memo} from 'react';
 import leaflet, { Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfferType } from '../../types/offer';
-import useMap from '../../hooks/useMap/use-map';
+import useMap from '../../hooks/use-map/use-map';
 import { CityType } from '../../types/offer';
 
 const DEFAULT_MARKER_URL = 'img/pin.svg';

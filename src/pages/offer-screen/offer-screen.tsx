@@ -58,7 +58,7 @@ function OfferScreen(): JSX.Element {
   if (isLoadError) {
     return (
       <main className="page__main page__main--offer">
-        <h2>
+        <h2 className="page__error-title">
           Произошла ошибка при загрузке данных
         </h2>
       </main>

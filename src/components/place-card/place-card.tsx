@@ -21,6 +21,7 @@ function PremiumMark(): JSX.Element {
 
 const PlaceCard = memo(({offer, onHover, className = 'cities', imgPreviewWidth = 260, imgPreviewHeight = 200}: PlaceCardProps): JSX.Element => {
   const {id, title, type, price, rating, previewImage, isPremium, isFavorite} = offer;
+  const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
 
   const handleMouseOver = () => {
     if (onHover) {
@@ -70,7 +71,7 @@ const PlaceCard = memo(({offer, onHover, className = 'cities', imgPreviewWidth =
         <h2 className="place-card__name">
           <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalizedType}</p>
       </div>
     </article>
   );
