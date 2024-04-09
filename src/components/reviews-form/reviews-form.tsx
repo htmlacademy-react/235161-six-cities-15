@@ -5,8 +5,10 @@ import { getCurrentOfferId, getPostLoadingStatus } from '../../store/selectors/o
 import RatingInput from '../../components/rating-input/rating-input';
 import { RATINGS } from '../../const';
 
-const MIN_COMMENT_LENGTH = 50;
-const MAX_COMMENT_LENGTH = 300;
+const CommentLength = {
+  Min: 50,
+  Max: 300,
+} as const;
 
 type ReviewFormData = {
   review: string;
@@ -24,8 +26,8 @@ function ReviewsForm(): JSX.Element {
   });
 
   const isValid =
-    formData.review.length > MIN_COMMENT_LENGTH &&
-    formData.review.length < MAX_COMMENT_LENGTH &&
+    formData.review.length > CommentLength.Min &&
+    formData.review.length < CommentLength.Max &&
     formData.rating !== 0;
 
   const handleCommentFieldChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -71,14 +73,14 @@ function ReviewsForm(): JSX.Element {
         name="review"
         value={formData.review}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        minLength={MIN_COMMENT_LENGTH}
-        maxLength={MAX_COMMENT_LENGTH}
+        minLength={CommentLength.Min}
+        maxLength={CommentLength.Max}
         disabled={postLoadingStatus}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{CommentLength.Min} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"

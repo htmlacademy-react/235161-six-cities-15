@@ -14,6 +14,9 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Loader from '../../components/loader/loader';
 import './offer-screen.css';
 
+const MAX_GALLERY_IMAGES = 6;
+const MAX_NEARBY_OFFERS = 3;
+
 function OfferScreen(): JSX.Element {
   const {id} = useParams();
   const dispatch = useAppDispatch();
@@ -38,8 +41,8 @@ function OfferScreen(): JSX.Element {
   const currentComments = useAppSelector(getComments);
   const currentCity = useAppSelector(getCurrentCity);
 
-  const galleryImages = useMemo(() => currentOffer?.images.slice(0, 6), [currentOffer?.images]);
-  const mapOffers = useMemo(() => nearbyOffers && currentOffer ? [...nearbyOffers.slice(0, 3), currentOffer] : [], [nearbyOffers, currentOffer]);
+  const galleryImages = useMemo(() => currentOffer?.images.slice(0, MAX_GALLERY_IMAGES), [currentOffer?.images]);
+  const mapOffers = useMemo(() => nearbyOffers && currentOffer ? [...nearbyOffers.slice(0, MAX_NEARBY_OFFERS), currentOffer] : [], [nearbyOffers, currentOffer]);
 
   useEffect(() => {
     if (currentOffer) {
@@ -58,7 +61,7 @@ function OfferScreen(): JSX.Element {
   if (isLoadError) {
     return (
       <main className="page__main page__main--offer">
-        <h2>
+        <h2 className="page__error-title">
           Произошла ошибка при загрузке данных
         </h2>
       </main>
@@ -94,7 +97,7 @@ function OfferScreen(): JSX.Element {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <PlacesList
-            offers={nearbyOffers.slice(0, 3)}
+            offers={nearbyOffers.slice(0, MAX_NEARBY_OFFERS)}
             className={'near-places__list'}
           />
         </section>}

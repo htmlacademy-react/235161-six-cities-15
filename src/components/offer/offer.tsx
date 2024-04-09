@@ -8,6 +8,8 @@ import BookmarkButton from '../bookmark-button/bookmark-button';
 import { FullOfferType, ReviewItemType } from '../../types/offer';
 import { AuthorizationStatus } from '../../const';
 
+const MAX_COMMENTS_COUNT = 10;
+
 type OfferProps = {
   currentOffer: FullOfferType;
   comments: ReviewItemType[];
@@ -22,7 +24,7 @@ function sortByDate(a: ReviewItemType, b: ReviewItemType): number {
 const Offer = memo(({currentOffer, comments}: OfferProps): JSX.Element => {
   const {id, bedrooms, description, host, goods, maxAdults, price, title, type, rating, isFavorite, isPremium} = currentOffer;
   const authStatus = useAppSelector(getAuthStatus);
-  const sortedReviews = comments.slice().sort(sortByDate).slice(0, 10);
+  const sortedReviews = comments.slice().sort(sortByDate).slice(0, MAX_COMMENTS_COUNT);
 
   return (
     <div className="offer__container container">
@@ -39,7 +41,7 @@ const Offer = memo(({currentOffer, comments}: OfferProps): JSX.Element => {
         </div>
         <div className="offer__rating rating">
           <div className="offer__stars rating__stars">
-            <span style={{width: `${Math.round(rating) * 20}%`}}></span>
+            <span style={{width: `${Math.round(rating) / 5 * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
           <span className="offer__rating-value rating__value">{rating}</span>
