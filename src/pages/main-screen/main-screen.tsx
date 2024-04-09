@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getOffers, getOffersErrorStatus } from '../../store/selectors/offers-selectors';
 import { getCurrentCity } from '../../store/selectors/city-selectors';
@@ -18,37 +18,31 @@ function MainScreen(): JSX.Element {
   const offersLoadErrorStatus = useAppSelector(getOffersErrorStatus);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | null>(null);
-  const [offersInCurrentCity, setOffersInCurrentCity] = useState<OfferType[]>([]);
 
   const handleHover = useCallback((offer?: OfferType) => {
     setActiveOffer(offer || null);
   }, []);
 
-  useEffect(() => {
-    setOffersInCurrentCity(offers.filter((offer) => offer.city.name === currentCity.name));
-  }, [currentCity, offers]);
+  const offersInCurrentCity = useMemo(() => (
+    offers.filter((offer) => offer.city.name === currentCity.name)
+  ), [offers, currentCity]);
 
-  useEffect(() => {
-    type SortFunction = (a: OfferType, b: OfferType) => number;
-
-    const sortFunctions: Record<string, SortFunction> = {
-      'Top rated first': (a: OfferType, b: OfferType) => b.rating - a.rating,
-      'Price: low to high': (a: OfferType, b: OfferType) => a.price - b.price,
-      'Price: high to low': (a: OfferType, b: OfferType) => b.price - a.price,
-    };
-
-    let filteredOffers = offers.filter((offer) => offer.city.name === currentCity.name);
-
-    if (currentSortingType !== 'Popular' && currentSortingType in sortFunctions) {
-      filteredOffers = filteredOffers.slice().sort(sortFunctions[currentSortingType]);
+  const sortedOffers = useMemo(() => {
+    if (currentSortingType === 'Popular') {
+      return offersInCurrentCity;
     }
 
-    setOffersInCurrentCity(filteredOffers);
+    const sortFunctions: Record<string, (a: OfferType, b: OfferType) => number> = {
+      'Top rated first': (a, b) => b.rating - a.rating,
+      'Price: low to high': (a, b) => a.price - b.price,
+      'Price: high to low': (a, b) => b.price - a.price,
+    };
 
-  }, [currentSortingType, offers, currentCity]);
+    return [...offersInCurrentCity].sort(sortFunctions[currentSortingType]);
+  }, [currentSortingType, offersInCurrentCity]);
 
   return (
-    <main className={`page__main page__main--index${offersInCurrentCity.length === 0 ? ' page__main--index-empty' : ''}`}>
+    <main className={`page__main page__main--index${sortedOffers.length === 0 ? ' page__main--index-empty' : ''}`}>
       <Helmet>
         <title>
           6 Cities. Main page
@@ -62,25 +56,27 @@ function MainScreen(): JSX.Element {
       </div>
       {offersLoadErrorStatus && <h2>Произошла ошибка при загрузке данных</h2>}
       <div className="cities">
-
-        {offersInCurrentCity.length !== 0 && !offersLoadErrorStatus ?
+        {sortedOffers.length !== 0 && !offersLoadErrorStatus ? (
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersInCurrentCity.length} place{offersInCurrentCity.length === 1 ? '' : 's'} to stay in {currentCity.name}
+                {sortedOffers.length} place{sortedOffers.length === 1 ? '' : 's'} to stay in {currentCity.name}
               </b>
               <Sort/>
               <PlacesList
-                offers={offersInCurrentCity}
+                offers={sortedOffers}
                 onHover={handleHover}
                 className={'cities__places-list'}
               />
             </section>
             <div className="cities__right-section">
-              <Map offers={offersInCurrentCity} activeOffer={activeOffer} city={currentCity}/>
+              <Map offers={sortedOffers} activeOffer={activeOffer} city={currentCity}/>
             </div>
-          </div> : <EmptyPlacesContainer />}
+          </div>
+        ) : (
+          <EmptyPlacesContainer />
+        )}
       </div>
     </main>
   );
